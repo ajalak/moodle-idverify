@@ -9,6 +9,6 @@ learner's verified legal name and isikukood (encrypted) so the course certificat
 | `build.py` | Builds installable ZIPs into `dist/` (set `PHP_BIN` to lint with `php -l` first) |
 | `.github/workflows/ci.yml` | moodle-plugin-ci: phpcs, phpdoc, validate, PHPUnit on Moodle 5.2 |
 
-Status: planning (Step 0). Install and configuration docs follow with the first phase.
+Status: plan awaiting approval, see [IDVERIFY_PLAN.md](IDVERIFY_PLAN.md) and [docs/STEP0-research.md](docs/STEP0-research.md).
 
 Secrets (HMAC key, eID Easy client secret) never go in this repository.
