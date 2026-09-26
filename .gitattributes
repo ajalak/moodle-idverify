@@ -1,0 +1,6 @@
+# Keep LF everywhere: Moodle runs on Linux and its code style requires LF.
+* text=auto eol=lf
+*.png binary
+*.jpg binary
+*.zip binary
+*.pdf binary

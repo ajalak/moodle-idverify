@@ -1,0 +1,21 @@
+# Secrets: HMAC key, eID Easy client secret, tokens never go in the repo
+.env
+*.env
+config.php
+
+# Plugin zips built for installing in Moodle
+dist/
+*.zip
+
+# Python
+__pycache__/
+*.py[cod]
+
+# Editor / OS
+.vscode/
+.idea/
+Thumbs.db
+Desktop.ini
+
+# Claude Code local settings
+.claude/settings.local.json
