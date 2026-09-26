@@ -3,7 +3,12 @@
 
 name: Moodle Plugin CI
 
-on: [push, pull_request]
+# Only plugin code changes trigger CI (docs-only commits don't). Add the certificate element folder once it exists.
+on:
+  push:
+    paths: ['local/**']
+  pull_request:
+    paths: ['local/**']
 
 jobs:
   test:
