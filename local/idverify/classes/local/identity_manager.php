@@ -16,6 +16,7 @@
 
 namespace local_idverify\local;
 
+use local_idverify\event\identity_retained;
 use local_idverify\event\identity_revoked;
 use local_idverify\event\identity_verified;
 use local_idverify\event\verification_conflict;
@@ -228,6 +229,42 @@ class identity_manager {
             'context' => \context_system::instance(),
             'other' => ['method' => $existing->method, 'provider' => $existing->provider],
         ])->trigger();
+        return true;
+    }
+
+    /**
+     * Delete a user's identity data for a privacy request or account deletion, unless it must be kept.
+     *
+     * Lawful basis is legal obligation (GDPR Art. 6(1)(c)): Estonian adult education rules require the legal name
+     * and personal ID code on the certificate. While a verified identity exists and certificates have printed it
+     * (rows in local_idverify_issued), nothing is deleted: the data is kept and an identity_retained event is
+     * logged so the data protection officer can decide by hand, e.g. revoke after the retention period. Once the
+     * identity is gone (never verified or revoked), the next request deletes the register rows too.
+     *
+     * @param int $userid
+     * @param string $reason "privacyrequest" or "userdeleted", logged with identity_retained.
+     * @return bool True if data was deleted (or there was none), false if it was retained.
+     */
+    public static function delete_personal_data(int $userid, string $reason): bool {
+        global $DB;
+
+        $identity = self::get($userid);
+        $issued = self::count_issued($userid);
+        if ($identity && $issued > 0) {
+            identity_retained::create([
+                'objectid' => $identity->id,
+                'relateduserid' => $userid,
+                'context' => \context_system::instance(),
+                'other' => ['reason' => $reason, 'issued' => $issued],
+            ])->trigger();
+            return false;
+        }
+
+        $DB->delete_records(self::TABLE, ['userid' => $userid]);
+        $DB->delete_records('local_idverify_issued', ['userid' => $userid]);
+        if ($identity && $DB->record_exists('user', ['id' => $userid, 'deleted' => 0])) {
+            self::set_profile_flag($userid, false);
+        }
         return true;
     }
 

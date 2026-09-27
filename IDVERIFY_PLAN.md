@@ -1,6 +1,6 @@
 # local_idverify — plan
 
-**Status:** plan approved 2026-09-27. Phases (a)–(d) done: local_idverify 0.4.0 (57 tests) and customcertelement_idverify 0.1.0 (8 tests). Both are installed on b5.ee with the provider Disabled. Next: phase (e), the privacy provider and README.
+**Status:** all phases (a)–(e) done: local_idverify 0.5.0 (64 tests) and customcertelement_idverify 0.1.0 (8 tests); the core privacy compliance test passes. Open: the legal reference (README §8 TODO), production eID Easy credentials, and the keys on b5.ee.
 
 ## 1. Components
 
@@ -200,5 +200,8 @@ e. Privacy provider and remaining tests; README (install, config.php key, eID Ea
   (`mark_user_dirty()` only reloads capabilities, not profile fields).
 - 2026-09-27: manual verification is refused for already verified users (revoke first); the unmasked code is
   shown only after a POST "Show code" on the view page, one user at a time, and logged as `idcode_viewed`.
+- 2026-09-27: deletion rule (privacy requests and account deletion): identity plus issued certificates → keep
+  and log `identity_retained`; otherwise delete the identity and the register. After the DPO revokes, the next
+  request removes the register too.
 - 2026-09-27: name lock: `before_user_updated` restores the legal name unless the actor has
   `local/idverify:manage`.

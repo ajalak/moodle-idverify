@@ -33,4 +33,8 @@ $callbacks = [
         'hook' => \core_user\hook\before_user_updated::class,
         'callback' => [\local_idverify\hook_callbacks::class, 'before_user_updated'],
     ],
+    [
+        'hook' => \core_user\hook\before_user_deleted::class,
+        'callback' => [\local_idverify\hook_callbacks::class, 'before_user_deleted'],
+    ],
 ];

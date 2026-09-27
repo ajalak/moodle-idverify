@@ -75,4 +75,13 @@ class hook_callbacks {
             }
         }
     }
+
+    /**
+     * Account deletion: same rule as a privacy deletion request (identity_manager::delete_personal_data()).
+     *
+     * @param \core_user\hook\before_user_deleted $hook
+     */
+    public static function before_user_deleted(\core_user\hook\before_user_deleted $hook): void {
+        identity_manager::delete_personal_data((int)$hook->user->id, 'userdeleted');
+    }
 }
