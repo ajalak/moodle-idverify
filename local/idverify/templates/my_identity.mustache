@@ -1,0 +1,77 @@
+{{!
+    This file is part of Moodle - https://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+}}
+{{!
+    @template local_idverify/my_identity
+
+    The learner's own identity verification status.
+
+    Context variables required for this template:
+    * verified - bool
+    * canstart - bool, show the verify button
+    * notavailable - bool, verification is switched off or not configured
+    * adminwarning - bool, the HMAC key is missing (shown to site admins)
+    * starturl, sesskey - verify button target
+    * fullname, idcode (masked), birthdate, country, method, timeverified, nameslocked - when verified
+
+    Example context (json):
+    {
+        "verified": true, "canstart": false, "notavailable": false, "adminwarning": false,
+        "starturl": "https://example.test/local/idverify/start.php", "sesskey": "abc",
+        "fullname": "Mari Maasikas", "idcode": "4xxxxxx1234", "birthdate": null, "country": "EE",
+        "method": "Smart-ID", "timeverified": "27 September 2026, 10:00", "nameslocked": true
+    }
+}}
+<div class="local-idverify-myidentity">
+    {{#adminwarning}}
+        <div class="alert alert-danger" role="alert">{{#str}} error:hmackey_admin, local_idverify {{/str}}</div>
+    {{/adminwarning}}
+    {{#verified}}
+        <div class="alert alert-success" role="status">{{#str}} status:verified, local_idverify {{/str}}</div>
+        <dl class="row">
+            <dt class="col-sm-3">{{#str}} legalname, local_idverify {{/str}}</dt>
+            <dd class="col-sm-9">{{fullname}}</dd>
+            {{#idcode}}
+                <dt class="col-sm-3">{{#str}} idcode, local_idverify {{/str}}</dt>
+                <dd class="col-sm-9"><span class="text-monospace">{{idcode}}</span> ({{country}})</dd>
+            {{/idcode}}
+            {{#birthdate}}
+                <dt class="col-sm-3">{{#str}} birthdate, local_idverify {{/str}}</dt>
+                <dd class="col-sm-9">{{birthdate}} ({{country}})</dd>
+            {{/birthdate}}
+            <dt class="col-sm-3">{{#str}} method, local_idverify {{/str}}</dt>
+            <dd class="col-sm-9">{{method}}</dd>
+            <dt class="col-sm-3">{{#str}} timeverified, local_idverify {{/str}}</dt>
+            <dd class="col-sm-9">{{timeverified}}</dd>
+        </dl>
+        {{#nameslocked}}
+            <p class="text-muted">{{#str}} nameslocked, local_idverify {{/str}}</p>
+        {{/nameslocked}}
+    {{/verified}}
+    {{^verified}}
+        <p>{{#str}} intro, local_idverify {{/str}}</p>
+        {{#canstart}}
+            <form method="post" action="{{starturl}}">
+                <input type="hidden" name="sesskey" value="{{sesskey}}">
+                <button type="submit" class="btn btn-primary btn-lg">{{#str}} verifynow, local_idverify {{/str}}</button>
+            </form>
+            <p class="text-muted mt-3">{{#str}} privacynote, local_idverify {{/str}}</p>
+        {{/canstart}}
+        {{#notavailable}}
+            <div class="alert alert-warning" role="alert">{{#str}} error:notavailable, local_idverify {{/str}}</div>
+        {{/notavailable}}
+    {{/verified}}
+</div>

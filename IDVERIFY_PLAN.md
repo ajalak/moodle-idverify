@@ -1,6 +1,6 @@
 # local_idverify — plan
 
-**Status:** Step 0 done ([docs/STEP0-research.md](docs/STEP0-research.md)). Plan awaiting approval. No plugin code yet.
+**Status:** plan approved 2026-09-27. Phase (a) done (plugin 0.1.0): schema, crypto, mock flow, My identity, 34 PHPUnit tests. Next: phase (b), eID Easy.
 
 ## 1. Components
 
@@ -177,3 +177,15 @@ e. Privacy provider and remaining tests; README (install, config.php key, eID Ea
 
 - 2026-09-27: dev environment is a local Moodle 5.2.3 (docs/DEVELOPMENT.md); CI on GitHub Actions.
 - 2026-09-27: certificate module is `mod_customcert` 5.2.8 (Step 0 §1).
+- 2026-09-27: plan approved with all proposals ("go with the proposals"):
+  - Q1: `note` column and the `local_idverify_issued` register are added (both in install.xml from 0.1.0).
+  - Q2: deletion with issued certificates keeps the data and logs `identity_retained`; retention is a manual
+    DPO task, with no automatic expiry.
+  - Q3: revoke after issue is allowed, with a warning.
+  - Q4: teachers with `mod/customcert:viewreport` see the code in learners' PDFs, since it is part of the certificate.
+  - Q5: the course callout is a label snippet with a link.
+  - Q6: EE only, via the `allowedcountries` setting (default `EE`). Manual verification is not limited.
+  - Q7: legal reference pending from the owner; a placeholder is in the strings and README.
+  - Q8: eID Easy public test credentials for development.
+  - Q9: document `$CFG->nokeygeneration = true` for production.
+- 2026-09-27: provider setting default is "Disabled"; an admin must pick one explicitly.

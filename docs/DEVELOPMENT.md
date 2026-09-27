@@ -18,6 +18,17 @@ The plugin is linked into Moodle with a directory junction (no admin rights need
 mklink /J D:\MoodleDev\moodle\public\local\idverify D:\Projects\moodle-idverify\local\idverify
 ```
 
+PHP resolves `__DIR__` through the junction to the real path, so a page's `require('../../config.php')` lands in
+the repository root. A gitignored stub `config.php` there loads the dev site's config:
+
+```php
+<?php
+require('D:/MoodleDev/moodle/config.php');
+```
+
+Dev site settings: provider `mock` (`php admin/cli/cfg.php --component=local_idverify --name=provider --set=mock`).
+Test accounts (admin, learner1) are in `D:\MoodleDev\dev-credentials.txt`.
+
 Web server: `php -S localhost:8000 -t D:\MoodleDev\moodle\public` (Claude Code launch config `moodle-dev`),
 then http://localhost:8000.
 
