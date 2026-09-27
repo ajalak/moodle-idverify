@@ -59,8 +59,11 @@ Sources:
 - `idcode` is returned without a country prefix (`"38112086027"`), and `country` is separate.
 - Mobile browsers: the docs warn against in-app browsers and iframes. We use a full-page redirect.
 - Test identities:
-  - Smart-ID EE demo: isikukood `30303039914`, "Ok Testnumber", born 1903-03-03 (auto-approves). The
-    checksum is valid.
+  - Smart-ID EE demo: the eID Easy page lists `30303039914`, but in SK's demo environment it is now a BASIC
+    account ("only valid for bank login"), which **fails** (checked 2026-09-27). Use SK's current qualified test
+    accounts (https://sk-eid.github.io/smart-id-documentation/test_accounts.html): **`40404040009`** (MOCK-Q,
+    adult, OK, auto-approves). A live test on 2026-09-27 via test.eideasy.com returned "Ok" "Test", born
+    1904-04-04, method `smartid`. Others: `30403039917` (USER_REFUSED), `30403039983` (TIMEOUT).
   - Mobile-ID demo: `+37268000769` / `60001017869` (OK), `+37201100266` / `60001019950` (USER_CANCELLED).
   - ID card: needs a physical test card from id.ee.
 

@@ -1,6 +1,6 @@
 # local_idverify — plan
 
-**Status:** plan approved 2026-09-27. Phase (a) done (plugin 0.1.0): schema, crypto, mock flow, My identity, 34 PHPUnit tests. Next: phase (b), eID Easy.
+**Status:** plan approved 2026-09-27. Phases (a) and (b) done (plugin 0.2.0, 50 PHPUnit tests). eID Easy was tested live on test.eideasy.com (Smart-ID `40404040009`). Next: phase (c), the certificate element.
 
 ## 1. Components
 
@@ -189,3 +189,7 @@ e. Privacy provider and remaining tests; README (install, config.php key, eID Ea
   - Q8: eID Easy public test credentials for development.
   - Q9: document `$CFG->nokeygeneration = true` for production.
 - 2026-09-27: provider setting default is "Disabled"; an admin must pick one explicitly.
+- 2026-09-27: the eID Easy public test client accepts `http://localhost:8000/local/idverify/callback.php` as a
+  redirect URI. Tested live.
+- 2026-09-27: an admin revoke cannot change the learner's session copy of `idverified`. Phase (d) will end the
+  user's sessions on revoke.
