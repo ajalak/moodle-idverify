@@ -202,19 +202,25 @@ class identity_manager {
     }
 
     /**
-     * Remove a user's identity and clear the idverified flag.
+     * Remove a user's identity, clear the idverified flag and end the user's sessions.
+     *
+     * Certificates already issued re-render without the identity (customcert does not store PDFs); the
+     * issued-certificate register is kept.
      *
      * @param int $userid
      * @return bool False if the user had no identity.
      */
     public static function revoke(int $userid): bool {
-        global $DB;
+        global $DB, $USER;
         $existing = self::get($userid);
         if (!$existing) {
             return false;
         }
         $DB->delete_records(self::TABLE, ['id' => $existing->id]);
         self::set_profile_flag($userid, false);
+        // The user's other sessions still hold idverified = 1 in $USER->profile (availability_profile reads it
+        // from there), so end them; the flag is reloaded from the database at the next login.
+        \core\session\manager::destroy_user_sessions($userid, (int)$USER->id === $userid ? session_id() : null);
 
         identity_revoked::create([
             'objectid' => $existing->id,
@@ -223,6 +229,29 @@ class identity_manager {
             'other' => ['method' => $existing->method, 'provider' => $existing->provider],
         ])->trigger();
         return true;
+    }
+
+    /**
+     * Number of issued certificates that printed this user's identity (local_idverify_issued).
+     *
+     * @param int $userid
+     * @return int
+     */
+    public static function count_issued(int $userid): int {
+        global $DB;
+        return $DB->count_records('local_idverify_issued', ['userid' => $userid]);
+    }
+
+    /**
+     * Bring the current user's session copy of idverified in line with the database.
+     *
+     * Needed after an admin verified the user while they were logged in (their session still says 0).
+     */
+    public static function sync_session_flag(): void {
+        global $USER;
+        if (isloggedin() && !isguestuser() && isset($USER->profile) && is_array($USER->profile)) {
+            $USER->profile[self::PROFILE_FIELD] = self::is_verified((int)$USER->id) ? '1' : '0';
+        }
     }
 
     /**

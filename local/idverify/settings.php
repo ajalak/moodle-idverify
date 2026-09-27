@@ -30,6 +30,14 @@ use local_idverify\local\verified_person;
 use local_idverify\provider\mock;
 use local_idverify\provider\registry;
 
+// Verified identities (Site administration > Users): managers need not have site config rights.
+$ADMIN->add('accounts', new admin_externalpage(
+    'local_idverify_manage',
+    new lang_string('manage', 'local_idverify'),
+    new moodle_url('/local/idverify/admin/index.php'),
+    'local/idverify:manage'
+));
+
 if ($hassiteconfig) {
     $settings = new admin_settingpage('local_idverify', new lang_string('pluginname', 'local_idverify'));
     $ADMIN->add('localplugins', $settings);

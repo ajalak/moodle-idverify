@@ -49,4 +49,30 @@ class hook_callbacks {
             'titleidentifier' => ($verified ? 'myidentity' : 'verifyidentity') . ',local_idverify',
         ]);
     }
+
+    /**
+     * Keep the legal name on verified accounts ("Use legal name" setting).
+     *
+     * Reverts first and last name changes made through user_update_user() (profile edit form, OAuth2 profile
+     * sync at login, web services) unless the acting user can manage identities.
+     *
+     * @param \core_user\hook\before_user_updated $hook
+     */
+    public static function before_user_updated(\core_user\hook\before_user_updated $hook): void {
+        if (empty($hook->user->id) || get_config('local_idverify', 'overwritenames') === '0') {
+            return;
+        }
+        $identity = identity_manager::get((int)$hook->user->id);
+        if (!$identity) {
+            return;
+        }
+        if (isloggedin() && has_capability('local/idverify:manage', \context_system::instance())) {
+            return;
+        }
+        foreach (['firstname', 'lastname'] as $field) {
+            if (property_exists($hook->user, $field) && $hook->user->$field !== $identity->$field) {
+                $hook->user->$field = $identity->$field;
+            }
+        }
+    }
 }

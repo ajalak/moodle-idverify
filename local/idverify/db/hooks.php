@@ -29,4 +29,8 @@ $callbacks = [
         'hook' => \core_user\hook\extend_user_menu::class,
         'callback' => [\local_idverify\hook_callbacks::class, 'extend_user_menu'],
     ],
+    [
+        'hook' => \core_user\hook\before_user_updated::class,
+        'callback' => [\local_idverify\hook_callbacks::class, 'before_user_updated'],
+    ],
 ];

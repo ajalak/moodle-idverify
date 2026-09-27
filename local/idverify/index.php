@@ -31,6 +31,9 @@ if (isguestuser()) {
 $context = context_system::instance();
 require_capability('local/idverify:verifyself', $context);
 
+// An admin may have verified or revoked this user during their session.
+\local_idverify\local\identity_manager::sync_session_flag();
+
 $PAGE->set_url(new moodle_url('/local/idverify/index.php'));
 $PAGE->set_context($context);
 $PAGE->set_pagelayout('standard');

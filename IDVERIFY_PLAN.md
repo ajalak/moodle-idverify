@@ -1,6 +1,6 @@
 # local_idverify — plan
 
-**Status:** plan approved 2026-09-27. Phases (a)–(c) done: local_idverify 0.3.0 (50 tests) and customcertelement_idverify 0.1.0 (8 tests). eID Easy was tested live; the certificate PDF was checked on the dev site. Next: phase (d), manual verification and admin UI.
+**Status:** plan approved 2026-09-27. Phases (a)–(d) done: local_idverify 0.4.0 (57 tests) and customcertelement_idverify 0.1.0 (8 tests). Both are installed on b5.ee with the provider Disabled. Next: phase (e), the privacy provider and README.
 
 ## 1. Components
 
@@ -195,5 +195,10 @@ e. Privacy provider and remaining tests; README (install, config.php key, eID Ea
   previews and the edit screen show a placeholder and decrypt nothing. Issued certificates are registered only
   when the user is verified and the template contains the element.
 - 2026-09-27: CI tests each plugin in its own job; mod_customcert comes from GitHub (MOODLE_502_STABLE).
-- 2026-09-27: an admin revoke cannot change the learner's session copy of `idverified`. Phase (d) will end the
-  user's sessions on revoke.
+- 2026-09-27: revoke ends the user's sessions (`destroy_user_sessions`; an admin revoking themselves keeps the
+  current one). After a manual verification, the learner's session is re-synced when they open My identity
+  (`mark_user_dirty()` only reloads capabilities, not profile fields).
+- 2026-09-27: manual verification is refused for already verified users (revoke first); the unmasked code is
+  shown only after a POST "Show code" on the view page, one user at a time, and logged as `idcode_viewed`.
+- 2026-09-27: name lock: `before_user_updated` restores the legal name unless the actor has
+  `local/idverify:manage`.
