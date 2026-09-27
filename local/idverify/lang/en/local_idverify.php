@@ -41,6 +41,7 @@ $string['error:notavailable'] = 'Identity verification is not available at the m
 $string['error:provider'] = 'Verification failed. Please try again. If it keeps failing, contact support.';
 $string['error:state'] = 'The verification session is invalid. Please start again.';
 $string['error:stateexpired'] = 'The verification took too long. Please start again.';
+$string['event:idcode_decrypted'] = 'Verified ID code printed on a certificate';
 $string['event:identity_revoked'] = 'Identity verification revoked';
 $string['event:identity_verified'] = 'Identity verified';
 $string['event:verification_conflict'] = 'Identity already linked to another account';

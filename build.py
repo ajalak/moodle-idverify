@@ -15,7 +15,7 @@ DIST = ROOT / 'dist'
 
 PLUGINS = [
     ('local_idverify', ROOT / 'local' / 'idverify'),
-    # The certificate element subplugin is added here once Step 0 confirms the certificate module.
+    ('customcertelement_idverify', ROOT / 'mod' / 'customcert' / 'element' / 'idverify'),
 ]
 
 

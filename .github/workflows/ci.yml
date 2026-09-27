@@ -1,14 +1,16 @@
 # Moodle plugin checks and PHPUnit tests (moodle-plugin-ci). Moodle 5.2+ only (public/ layout).
-# The plugin lives in local/idverify/ of this repository, not in the repository root.
+# Two plugins live in this repository (not in its root): local/idverify and the customcert element
+# mod/customcert/element/idverify. Each is tested in its own job; mod_customcert is added from GitHub, and the
+# element job also installs local_idverify from this checkout as an extra plugin.
 
 name: Moodle Plugin CI
 
-# Only plugin code changes trigger CI (docs-only commits don't). Add the certificate element folder once it exists.
+# Only plugin code changes trigger CI (docs-only commits don't).
 on:
   push:
-    paths: ['local/**']
+    paths: ['local/**', 'mod/**', '.github/workflows/**']
   pull_request:
-    paths: ['local/**']
+    paths: ['local/**', 'mod/**', '.github/workflows/**']
 
 jobs:
   test:
@@ -30,6 +32,10 @@ jobs:
         include:
           - php: '8.3'
             moodle-branch: 'MOODLE_502_STABLE'
+            plugin: 'local/idverify'
+          - php: '8.3'
+            moodle-branch: 'MOODLE_502_STABLE'
+            plugin: 'mod/customcert/element/idverify'
 
     steps:
       - name: Check out repository code
@@ -52,8 +58,15 @@ jobs:
           sudo locale-gen en_AU.UTF-8
           echo "NVM_DIR=$HOME/.nvm" >> $GITHUB_ENV
 
+      - name: Add mod_customcert
+        run: moodle-plugin-ci add-plugin mdjnelson/moodle-mod_customcert --branch MOODLE_502_STABLE
+
+      - name: Add local_idverify as a dependency of the element
+        if: ${{ matrix.plugin != 'local/idverify' }}
+        run: cp -r plugin/local/idverify moodle-plugin-ci-plugins/local_idverify
+
       - name: Install moodle-plugin-ci
-        run: moodle-plugin-ci install --plugin ./plugin/local/idverify --db-host=127.0.0.1
+        run: moodle-plugin-ci install --plugin ./plugin/${{ matrix.plugin }} --db-host=127.0.0.1
         env:
           DB: pgsql
           MOODLE_BRANCH: ${{ matrix.moodle-branch }}

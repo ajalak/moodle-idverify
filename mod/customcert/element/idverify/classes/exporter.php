@@ -14,18 +14,25 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
+declare(strict_types=1);
+
+namespace customcertelement_idverify;
+
+use mod_customcert\export\datatypes\enum_field;
+use mod_customcert\export\subplugin_text_exportable;
+
 /**
- * Version details for local_idverify.
+ * Template export/import of the element settings (which value is shown); no user data.
  *
- * @package    local_idverify
+ * @package    customcertelement_idverify
  * @copyright  2026 Andres
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
-defined('MOODLE_INTERNAL') || die();
-
-$plugin->component = 'local_idverify';
-$plugin->version   = 2026092702;        // YYYYMMDDXX.
-$plugin->requires  = 2026042000;        // Moodle 5.2.
-$plugin->maturity  = MATURITY_ALPHA;
-$plugin->release   = '0.3.0';
+class exporter extends subplugin_text_exportable {
+    #[\Override]
+    protected function get_fields(): array {
+        return parent::get_fields() + [
+            'show' => new enum_field([element::SHOW_IDCODE, element::SHOW_LEGALNAME]),
+        ];
+    }
+}

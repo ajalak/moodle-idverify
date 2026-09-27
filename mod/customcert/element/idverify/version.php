@@ -15,17 +15,21 @@
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
- * Version details for local_idverify.
+ * Version details for customcertelement_idverify.
  *
- * @package    local_idverify
+ * @package    customcertelement_idverify
  * @copyright  2026 Andres
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->component = 'local_idverify';
-$plugin->version   = 2026092702;        // YYYYMMDDXX.
+$plugin->component = 'customcertelement_idverify';
+$plugin->version   = 2026092700;        // YYYYMMDDXX.
 $plugin->requires  = 2026042000;        // Moodle 5.2.
 $plugin->maturity  = MATURITY_ALPHA;
-$plugin->release   = '0.3.0';
+$plugin->release   = '0.1.0';
+$plugin->dependencies = [
+    'mod_customcert' => 2026042013, // 5.2.8, the element API used here.
+    'local_idverify' => 2026092702,
+];

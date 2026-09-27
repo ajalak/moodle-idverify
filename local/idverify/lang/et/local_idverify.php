@@ -41,6 +41,7 @@ $string['error:notavailable'] = 'Isikutuvastus ei ole praegu saadaval. Palun pro
 $string['error:provider'] = 'Tuvastamine ebaõnnestus. Palun proovi uuesti. Kui see ei õnnestu, võta ühendust kasutajatoega.';
 $string['error:state'] = 'Tuvastamise seanss ei kehti. Palun alusta uuesti.';
 $string['error:stateexpired'] = 'Tuvastamine võttis liiga kaua aega. Palun alusta uuesti.';
+$string['event:idcode_decrypted'] = 'Tuvastatud isikukood trükiti tunnistusele';
 $string['event:identity_revoked'] = 'Isikutuvastus tühistatud';
 $string['event:identity_verified'] = 'Isik tuvastatud';
 $string['event:verification_conflict'] = 'Isik on juba seotud teise kontoga';

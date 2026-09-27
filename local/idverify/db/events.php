@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
- * Version details for local_idverify.
+ * Event observers for local_idverify.
  *
  * @package    local_idverify
  * @copyright  2026 Andres
@@ -24,8 +24,10 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->component = 'local_idverify';
-$plugin->version   = 2026092702;        // YYYYMMDDXX.
-$plugin->requires  = 2026042000;        // Moodle 5.2.
-$plugin->maturity  = MATURITY_ALPHA;
-$plugin->release   = '0.3.0';
+$observers = [
+    [
+        // Only fires when mod_customcert is installed.
+        'eventname' => '\mod_customcert\event\issue_created',
+        'callback' => [\local_idverify\observer::class, 'certificate_issued'],
+    ],
+];

@@ -1,6 +1,6 @@
 # local_idverify — plan
 
-**Status:** plan approved 2026-09-27. Phases (a) and (b) done (plugin 0.2.0, 50 PHPUnit tests). eID Easy was tested live on test.eideasy.com (Smart-ID `40404040009`). Next: phase (c), the certificate element.
+**Status:** plan approved 2026-09-27. Phases (a)–(c) done: local_idverify 0.3.0 (50 tests) and customcertelement_idverify 0.1.0 (8 tests). eID Easy was tested live; the certificate PDF was checked on the dev site. Next: phase (d), manual verification and admin UI.
 
 ## 1. Components
 
@@ -191,5 +191,9 @@ e. Privacy provider and remaining tests; README (install, config.php key, eID Ea
 - 2026-09-27: provider setting default is "Disabled"; an admin must pick one explicitly.
 - 2026-09-27: the eID Easy public test client accepts `http://localhost:8000/local/idverify/callback.php` as a
   redirect URI. Tested live.
+- 2026-09-27: element option "idcode" prints the birth date (dd.mm.yyyy) for manual identities without a code;
+  previews and the edit screen show a placeholder and decrypt nothing. Issued certificates are registered only
+  when the user is verified and the template contains the element.
+- 2026-09-27: CI tests each plugin in its own job; mod_customcert comes from GitHub (MOODLE_502_STABLE).
 - 2026-09-27: an admin revoke cannot change the learner's session copy of `idverified`. Phase (d) will end the
   user's sessions on revoke.

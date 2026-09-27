@@ -15,17 +15,21 @@
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
- * Version details for local_idverify.
+ * Estonian strings for customcertelement_idverify.
  *
- * @package    local_idverify
+ * @package    customcertelement_idverify
  * @copyright  2026 Andres
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->component = 'local_idverify';
-$plugin->version   = 2026092702;        // YYYYMMDDXX.
-$plugin->requires  = 2026042000;        // Moodle 5.2.
-$plugin->maturity  = MATURITY_ALPHA;
-$plugin->release   = '0.3.0';
+$string['invalidshow'] = 'Vali, mida näidata.';
+$string['placeholder:idcode'] = '12345678901';
+$string['placeholder:legalname'] = 'Eesnimi Perekonnanimi';
+$string['pluginname'] = 'Tuvastatud isik';
+$string['privacy:metadata'] = 'Element „Tuvastatud isik“ ei salvesta isikuandmeid. See trükib isikutuvastuse plugina (local_idverify) salvestatud andmeid.';
+$string['show'] = 'Näita';
+$string['show:idcode'] = 'Isikukood (selle puudumisel sünniaeg)';
+$string['show:legalname'] = 'Ametlik nimi';
+$string['show_help'] = 'Mida õppija tuvastatud isikuandmetest trükitakse. Tuvastamata õppijale ei trükita midagi, seega piira tunnistuse tegevust profiiliväljaga „Isik tuvastatud“. Eelvaates on näidisväärtus.';
