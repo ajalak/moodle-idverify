@@ -25,6 +25,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 use local_idverify\local\crypto;
+use local_idverify\local\flow;
 use local_idverify\local\verified_person;
 use local_idverify\provider\mock;
 use local_idverify\provider\registry;
@@ -63,6 +64,38 @@ if ($hassiteconfig) {
             new lang_string('setting:overwritenames', 'local_idverify'),
             new lang_string('setting:overwritenames_desc', 'local_idverify'),
             1
+        ));
+
+        $settings->add(new admin_setting_heading(
+            'local_idverify/eideasyheading',
+            new lang_string('setting:eideasyheading', 'local_idverify'),
+            new lang_string('setting:eideasyheading_desc', 'local_idverify', flow::callback_url()->out(false))
+        ));
+
+        $settings->add(new admin_setting_configselect(
+            'local_idverify/eideasy_env',
+            new lang_string('setting:eideasy_env', 'local_idverify'),
+            new lang_string('setting:eideasy_env_desc', 'local_idverify'),
+            'test',
+            [
+                'test' => new lang_string('setting:eideasy_env_test', 'local_idverify'),
+                'production' => new lang_string('setting:eideasy_env_production', 'local_idverify'),
+            ]
+        ));
+
+        $settings->add(new admin_setting_configtext(
+            'local_idverify/eideasy_clientid',
+            new lang_string('setting:eideasy_clientid', 'local_idverify'),
+            '',
+            '',
+            PARAM_ALPHANUMEXT
+        ));
+
+        $settings->add(new admin_setting_configpasswordunmask(
+            'local_idverify/eideasy_secret',
+            new lang_string('setting:eideasy_secret', 'local_idverify'),
+            new lang_string('setting:eideasy_secret_desc', 'local_idverify'),
+            ''
         ));
 
         if (mock::allowed()) {
