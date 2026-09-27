@@ -1,6 +1,6 @@
 # local_idverify — plan
 
-**Status:** all phases (a)–(e) done: local_idverify 0.5.0 (64 tests) and customcertelement_idverify 0.1.0 (8 tests); the core privacy compliance test passes. Open: the legal reference (README §8 TODO), production eID Easy credentials, and the keys on b5.ee.
+**Status:** all phases (a)–(e) done: local_idverify 0.5.0 (64 tests) and customcertelement_idverify 0.1.0 (8 tests). b5.ee (sandbox) has both plugins installed. Open: the legal reference (README §8 TODO) and the kera.ee go-live steps below.
 
 ## 1. Components
 
@@ -205,3 +205,14 @@ e. Privacy provider and remaining tests; README (install, config.php key, eID Ea
   request removes the register too.
 - 2026-09-27: name lock: `before_user_updated` restores the legal name unless the actor has
   `local/idverify:manage`.
+- 2026-09-27: b5.ee is a sandbox only, with no real services connected: provider Disabled, or eID Easy *Test* with
+  the public sandbox credentials. **kera.ee is the live site.** Go-live there (later, by the owner):
+  1. Moodle 5.2+ and mod_customcert 5.2.8+; install both ZIPs (local_idverify first).
+  2. New HMAC key (not b5.ee's) and `$CFG->nokeygeneration = true` in config.php; back up the key and
+     `moodledata/secret/key/sodium.key`.
+  3. Register at id.eideasy.com with the redirect URI `https://kera.ee/local/idverify/callback.php`, enabling only EE
+     Smart-ID, ID card and Mobile-ID; enter the client ID and secret, set Environment to Production.
+  4. Add the Verified identity element to kera.ee's certificate template; restrict certificate activities with
+     *Identity verified = 1*.
+  5. Set the provider to eID Easy; verify with a real ID once as a final check, then revoke if it was a test account.
+  Do not copy identities from b5.ee.

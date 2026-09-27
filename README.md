@@ -16,6 +16,16 @@ self-registration, Google or Microsoft).
 
 Requirements: Moodle 5.2+, `mod_customcert` 5.2.8+ (for the element), PHP `sodium` (standard in Moodle 5.2).
 
+## Sites
+
+| Site | Role | eID Easy |
+|---|---|---|
+| b5.ee | Sandbox; no real services connected | Environment *Test* with the public sandbox credentials, test identities only (or provider *Disabled*) |
+| kera.ee | Live site | Environment *Production* with its own eID Easy registration (redirect URI `https://kera.ee/local/idverify/callback.php`) |
+
+Each site has **its own HMAC key** and its own backups of that key and `moodledata/secret/`. Never copy verified
+identities between sites: the stored codes are tied to each site's keys. On b5.ee they are test data anyway.
+
 ## 1. Install
 
 1. Build or download the ZIPs: `local_idverify-<release>.zip` and `customcertelement_idverify-<release>.zip`
