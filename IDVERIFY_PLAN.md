@@ -232,3 +232,8 @@ e. Privacy provider and remaining tests; README (install, config.php key, eID Ea
 - 2026-09-28: owner declared the work so far release candidate 1.0: all three plugins 1.0.0-rc1 (MATURITY_RC),
   released together (the element and the restriction require local_idverify 2026092802); current ZIPs committed in
   `releases/`; CI YUI lint fixed (camelcase on `M.availability_idverify`).
+- 2026-09-28: b5.ee live test paused. With the public eID Easy sandbox client (Environment Test), the eID Easy login
+  page for `https://b5.ee/local/idverify/callback.php` opens, but login ends on eID Easy's page with "Midagi läks
+  valesti … 0x7749" (not documented; an internal reference). Nothing reached Moodle. The same client worked with
+  `localhost` on 2026-09-27. The owner has asked eID Easy support about 0x7749 and pricing. Next: their answer;
+  likely fix is an own eID Easy account with a test client that has the b5.ee redirect URI registered.
