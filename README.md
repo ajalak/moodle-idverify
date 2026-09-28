@@ -11,9 +11,14 @@ self-registration, Google or Microsoft).
 | `local/idverify/` | Moodle plugin `local_idverify`: verification flow, storage, admin pages, privacy |
 | `mod/customcert/element/idverify/` | Certificate element `customcertelement_idverify` for `mod_customcert` |
 | `availability/condition/idverify/` | Access restriction `availability_idverify` ("Identity verified"), which gates the certificate |
-| `build.py` | Builds the three installable ZIPs into `dist/` |
+| `releases/` | The current installable ZIPs of the three plugins (download without Python) |
+| `build.py` | Builds the three ZIPs into `dist/` and copies them to `releases/` |
 | `docs/` | [DEVELOPMENT.md](docs/DEVELOPMENT.md) (local dev site), [STEP0-research.md](docs/STEP0-research.md) (API findings, test accounts) |
+| `CHANGES.md` | [What each release contains](CHANGES.md) and known open items |
 | `IDVERIFY_PLAN.md` | Plan, decisions log |
+
+**Current release: 1.0.0-rc1** (release candidate, 2026-09-28): `local_idverify` 2026092802,
+`customcertelement_idverify` 2026092801, `availability_idverify` 2026092801. Install and upgrade the three together.
 
 Requirements: Moodle 5.2+, `mod_customcert` 5.2.8+ (for the element), PHP `sodium` (standard in Moodle 5.2).
 
@@ -29,8 +34,9 @@ identities between sites: the stored codes are tied to each site's keys. On b5.e
 
 ## 1. Install
 
-1. Build or download the ZIPs: `local_idverify-<release>.zip`, `customcertelement_idverify-<release>.zip` and
-   `availability_idverify-<release>.zip` (`python build.py` writes them to `dist/`).
+1. Download the ZIPs from [`releases/`](releases/) (signed in to GitHub, open each file, then *Download raw file*):
+   `local_idverify-<release>.zip`, `customcertelement_idverify-<release>.zip` and
+   `availability_idverify-<release>.zip`. Or build them with `python build.py`.
 2. *Site administration → Plugins → Install plugins*: install **local_idverify first**, then the element and the
    restriction. Without ZIP installs: upload the folders by FTP to `public/local/idverify`,
    `public/mod/customcert/element/idverify` and `public/availability/condition/idverify`, then open

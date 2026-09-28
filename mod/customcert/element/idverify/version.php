@@ -25,11 +25,11 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'customcertelement_idverify';
-$plugin->version   = 2026092700;        // YYYYMMDDXX.
+$plugin->version   = 2026092801;        // YYYYMMDDXX.
 $plugin->requires  = 2026042000;        // Moodle 5.2.
-$plugin->maturity  = MATURITY_ALPHA;
-$plugin->release   = '0.1.0';
+$plugin->maturity  = MATURITY_RC;
+$plugin->release   = '1.0.0-rc1';
 $plugin->dependencies = [
     'mod_customcert' => 2026042013, // 5.2.8, the element API used here.
-    'local_idverify' => 2026092702,
+    'local_idverify' => 2026092802,
 ];

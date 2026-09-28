@@ -5,7 +5,7 @@
  *
  * @module moodle-availability_idverify-form
  */
-M.availability_idverify = M.availability_idverify || {};
+M.availability_idverify = M.availability_idverify || {}; // eslint-disable-line camelcase
 
 /**
  * @class M.availability_idverify.form

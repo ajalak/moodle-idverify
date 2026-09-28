@@ -1,10 +1,14 @@
 """Package the plugins as Moodle-installable ZIPs in dist/.
 
+A copy of each current ZIP is kept in releases/ (committed), so a Moodle admin can download it from GitHub without
+Python; older ZIPs of the same plugin are removed from releases/. Commit that change together with the plugin change.
+
 If the environment variable PHP_BIN points to a php executable, every PHP file is linted first
 (`php -l`); the build stops on a syntax error or a deprecation notice.
 """
 import os
 import re
+import shutil
 import subprocess
 import sys
 import zipfile
@@ -12,6 +16,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).parent
 DIST = ROOT / 'dist'
+RELEASES = ROOT / 'releases'
 
 PLUGINS = [
     ('local_idverify', ROOT / 'local' / 'idverify'),
@@ -42,6 +47,15 @@ def lint(plugindir: Path) -> bool:
     return ok
 
 
+def publish(component: str, target: Path) -> None:
+    """Copy a built ZIP to releases/, replacing older releases of the same plugin."""
+    RELEASES.mkdir(exist_ok=True)
+    for old in RELEASES.glob(f'{component}-*.zip'):
+        if old.name != target.name:
+            old.unlink()
+    shutil.copy2(target, RELEASES / target.name)
+
+
 def main() -> None:
     DIST.mkdir(exist_ok=True)
     for component, plugindir in PLUGINS:
@@ -56,7 +70,8 @@ def main() -> None:
                 if path.is_file():
                     # Moodle expects a single top-level folder named after the plugin ("idverify/...").
                     zf.write(path, (plugindir.name / path.relative_to(plugindir)).as_posix())
-        print(target.relative_to(ROOT).as_posix())
+        publish(component, target)
+        print(target.relative_to(ROOT).as_posix(), '-> releases/')
 
 
 if __name__ == '__main__':

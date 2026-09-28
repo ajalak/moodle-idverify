@@ -3,9 +3,10 @@
 *.env
 config.php
 
-# Plugin zips built for installing in Moodle
+# Plugin zips built for installing in Moodle; only the current release in releases/ is committed
 dist/
 *.zip
+!releases/*.zip
 
 # Python
 __pycache__/

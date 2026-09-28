@@ -1,6 +1,6 @@
 # local_idverify — plan
 
-**Status:** phases (a)–(e) done, plus the availability_idverify restriction (2026-09-28): local_idverify 0.7.0 (70 tests), customcertelement_idverify 0.1.0 (8), availability_idverify 0.1.0 (5). Course builder integration is in the moodle-coursebuilder repo. Open: the legal reference (README §8 TODO) and the kera.ee go-live.
+**Status:** **1.0.0-rc1** (release candidate, 2026-09-28): local_idverify, customcertelement_idverify and availability_idverify, all 1.0.0-rc1 (70 + 8 + 5 tests); ZIPs in `releases/`, git tag `v1.0.0-rc1`; see CHANGES.md. Open: the legal reference (README §8), live checks of ID card / Mobile-ID / production eID Easy on kera.ee.
 
 ## 1. Components
 
@@ -229,3 +229,6 @@ e. Privacy provider and remaining tests; README (install, config.php key, eID Ea
   default string). The profile page shows an "Identity verification" line in User details instead of a link under
   Miscellaneous: unverified -> badge and "Verify now" (hidden while verification does not work), verified -> date
   and method, never the code or name. Visible to the owner and to identity managers only.
+- 2026-09-28: owner declared the work so far release candidate 1.0: all three plugins 1.0.0-rc1 (MATURITY_RC),
+  released together (the element and the restriction require local_idverify 2026092802); current ZIPs committed in
+  `releases/`; CI YUI lint fixed (camelcase on `M.availability_idverify`).

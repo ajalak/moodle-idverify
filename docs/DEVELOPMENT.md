@@ -43,7 +43,9 @@ vendor/bin/phpunit --testsuite local_idverify_testsuite
 D:\MoodleDev\tools\vendor\bin\phpcs --standard=moodle D:\Projects\moodle-idverify\local\idverify
 ```
 
-Build installable ZIPs: `set PHP_BIN=<php.exe>` then `python build.py` (lints with `php -l` first).
+Build installable ZIPs: `set PHP_BIN=<php.exe>` then `python build.py` (lints with `php -l` first; writes `dist/` and
+replaces the ZIPs in `releases/`, which are committed). Before a release also run ESLint on the YUI source with
+`npx eslint --max-warnings 0 <file>`: CI allows no warnings, and `grunt yui` alone does not fail on them.
 
 ## Building the YUI module of availability_idverify
 
