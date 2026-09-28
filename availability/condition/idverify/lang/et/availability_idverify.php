@@ -15,17 +15,21 @@
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
- * Version details for local_idverify.
+ * Estonian strings for availability_idverify.
  *
- * @package    local_idverify
+ * @package    availability_idverify
  * @copyright  2026 Andres
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->component = 'local_idverify';
-$plugin->version   = 2026092800;        // YYYYMMDDXX.
-$plugin->requires  = 2026042000;        // Moodle 5.2.
-$plugin->maturity  = MATURITY_ALPHA;
-$plugin->release   = '0.6.0';
+$string['description'] = 'Nõua tuvastatud isikut (Smart-ID, ID-kaart või Mobiil-ID). Ei kehti, kui isikutuvastus saidil ei tööta.';
+$string['editorlabel'] = 'Õppija peab olema oma isiku tuvastanud.';
+$string['notenforced'] = '(praegu ei kehti: isikutuvastus sellel saidil ei tööta)';
+$string['pluginname'] = 'Piirang tuvastatud isiku järgi';
+$string['privacy:metadata'] = 'Plugin „Piirang tuvastatud isiku järgi“ ei salvesta isikuandmeid. See loeb isikutuvastuse plugina (local_idverify) andmeid.';
+$string['requires_notverified'] = 'sinu isik <strong>ei ole</strong> tuvastatud';
+$string['requires_verified'] = 'sinu isik on tuvastatud ({$a})';
+$string['title'] = 'Isik tuvastatud';
+$string['verifylink'] = 'kliki siin tuvastamiseks';

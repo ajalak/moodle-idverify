@@ -39,6 +39,17 @@ class flow {
     }
 
     /**
+     * Whether self-verification works on this site: a valid HMAC key and an active provider.
+     *
+     * availability_idverify enforces its restriction only while this is true (fails open otherwise).
+     *
+     * @return bool
+     */
+    public static function is_available(): bool {
+        return crypto::has_valid_key() && registry::get_active() !== null;
+    }
+
+    /**
      * Begin a verification for the current user.
      *
      * @param provider_interface $provider

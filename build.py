@@ -16,6 +16,7 @@ DIST = ROOT / 'dist'
 PLUGINS = [
     ('local_idverify', ROOT / 'local' / 'idverify'),
     ('customcertelement_idverify', ROOT / 'mod' / 'customcert' / 'element' / 'idverify'),
+    ('availability_idverify', ROOT / 'availability' / 'condition' / 'idverify'),
 ]
 
 

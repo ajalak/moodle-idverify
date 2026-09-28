@@ -15,17 +15,20 @@
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
- * Version details for local_idverify.
+ * Version details for availability_idverify.
  *
- * @package    local_idverify
+ * @package    availability_idverify
  * @copyright  2026 Andres
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->component = 'local_idverify';
+$plugin->component = 'availability_idverify';
 $plugin->version   = 2026092800;        // YYYYMMDDXX.
 $plugin->requires  = 2026042000;        // Moodle 5.2.
 $plugin->maturity  = MATURITY_ALPHA;
-$plugin->release   = '0.6.0';
+$plugin->release   = '0.1.0';
+$plugin->dependencies = [
+    'local_idverify' => 2026092800,
+];

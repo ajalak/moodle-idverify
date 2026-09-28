@@ -1,6 +1,6 @@
 # local_idverify — plan
 
-**Status:** all phases (a)–(e) done: local_idverify 0.5.0 (64 tests) and customcertelement_idverify 0.1.0 (8 tests). b5.ee (sandbox) has both plugins installed. Open: the legal reference (README §8 TODO) and the kera.ee go-live steps below.
+**Status:** phases (a)–(e) done, plus the availability_idverify restriction (2026-09-28): local_idverify 0.6.0 (64 tests), customcertelement_idverify 0.1.0 (8), availability_idverify 0.1.0 (5). Course builder integration is in the moodle-coursebuilder repo. Open: the legal reference (README §8 TODO) and the kera.ee go-live.
 
 ## 1. Components
 
@@ -207,12 +207,21 @@ e. Privacy provider and remaining tests; README (install, config.php key, eID Ea
   `local/idverify:manage`.
 - 2026-09-27: b5.ee is a sandbox only, with no real services connected: provider Disabled, or eID Easy *Test* with
   the public sandbox credentials. **kera.ee is the live site.** Go-live there (later, by the owner):
-  1. Moodle 5.2+ and mod_customcert 5.2.8+; install both ZIPs (local_idverify first).
+  1. Moodle 5.2+ and mod_customcert 5.2.8+; install the three ZIPs (local_idverify first).
   2. New HMAC key (not b5.ee's) and `$CFG->nokeygeneration = true` in config.php; back up the key and
      `moodledata/secret/key/sodium.key`.
   3. Register at id.eideasy.com with the redirect URI `https://kera.ee/local/idverify/callback.php`, enabling only EE
      Smart-ID, ID card and Mobile-ID; enter the client ID and secret, set Environment to Production.
-  4. Add the Verified identity element to kera.ee's certificate template; restrict certificate activities with
-     *Identity verified = 1*.
+  4. Add the Verified identity element to kera.ee's certificate template. Certificates get the *Identity verified*
+     restriction (the course builder adds it; for other courses add it by hand).
   5. Set the provider to eID Easy; verify with a real ID once as a final check, then revoke if it was a test account.
   Do not copy identities from b5.ee.
+- 2026-09-28: certificates are gated by our own restriction `availability_idverify` ("Identity verified", JSON
+  `{"type":"idverify"}`), not by a profile-field condition. A plugin cannot add rows to another module's completion
+  requirements, so a restriction is the right place. Owner's decisions:
+  - fail open: without the plugin, with it disabled, or when verification does not work (no valid HMAC key or
+    provider Disabled: `flow::is_available()`), certificates are issued as usual;
+  - teachers may still issue certificates by hand (completion override); no warning, no blocking;
+  - the `idverified` profile field stays;
+  - the course builder adds the restriction to the certificates it builds, only where `availability_idverify` is
+    installed and enabled (moodle-coursebuilder repo).

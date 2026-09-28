@@ -10,6 +10,7 @@ Everything lives in `D:\MoodleDev` (outside this repository). No admin rights, s
 | mod_customcert | `D:\MoodleDev\moodle\public\mod\customcert` | branch `MOODLE_502_STABLE` |
 | moodledata / PHPUnit data | `D:\MoodleDev\moodledata`, `D:\MoodleDev\phpunitdata` | PHPUnit prefix `phpu_` |
 | phpcs + moodle-cs | `D:\MoodleDev\tools\vendor\bin\phpcs` | standard `moodle` |
+| Node.js 22 (portable) | `D:\MoodleDev\node` | official zip from nodejs.org (Moodle 5.2 needs Node 22); `npm ci` run in `D:\MoodleDev\moodle` for grunt |
 | Admin login | `D:\MoodleDev\dev-credentials.txt` | local file only |
 
 The plugin is linked into Moodle with a directory junction (no admin rights needed):
@@ -43,3 +44,20 @@ D:\MoodleDev\tools\vendor\bin\phpcs --standard=moodle D:\Projects\moodle-idverif
 ```
 
 Build installable ZIPs: `set PHP_BIN=<php.exe>` then `python build.py` (lints with `php -l` first).
+
+## Building the YUI module of availability_idverify
+
+The restriction editor needs `yui/build/`, and CI checks that it matches grunt's output exactly. Grunt follows the
+junction to the real path and then cannot find Moodle's ESLint config, so build from a real copy inside Moodle:
+
+```
+rmdir D:\MoodleDev\moodle\public\availability\condition\idverify
+xcopy /E /I D:\Projects\moodle-idverify\availability\condition\idverify D:\MoodleDev\moodle\public\availability\condition\idverify
+cd D:\MoodleDev\moodle
+set PATH=D:\MoodleDev\node;%PATH%
+npx grunt yui --root=public/availability/condition/idverify
+```
+
+Then copy `yui\build` back into the repository, delete the copy and recreate the junction
+(`mklink /J D:\MoodleDev\moodle\public\availability\condition\idverify D:\Projects\moodle-idverify\availability\condition\idverify`).
+Commit the `yui/build` files together with `yui/src`.

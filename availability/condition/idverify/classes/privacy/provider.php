@@ -14,18 +14,18 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
+namespace availability_idverify\privacy;
+
 /**
- * Version details for local_idverify.
+ * The restriction stores no personal data; it reads local_idverify's.
  *
- * @package    local_idverify
+ * @package    availability_idverify
  * @copyright  2026 Andres
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
-defined('MOODLE_INTERNAL') || die();
-
-$plugin->component = 'local_idverify';
-$plugin->version   = 2026092800;        // YYYYMMDDXX.
-$plugin->requires  = 2026042000;        // Moodle 5.2.
-$plugin->maturity  = MATURITY_ALPHA;
-$plugin->release   = '0.6.0';
+class provider implements \core_privacy\local\metadata\null_provider {
+    #[\Override]
+    public static function get_reason(): string {
+        return 'privacy:metadata';
+    }
+}

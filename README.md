@@ -10,7 +10,8 @@ self-registration, Google or Microsoft).
 |---|---|
 | `local/idverify/` | Moodle plugin `local_idverify`: verification flow, storage, admin pages, privacy |
 | `mod/customcert/element/idverify/` | Certificate element `customcertelement_idverify` for `mod_customcert` |
-| `build.py` | Builds both installable ZIPs into `dist/` |
+| `availability/condition/idverify/` | Access restriction `availability_idverify` ("Identity verified"), which gates the certificate |
+| `build.py` | Builds the three installable ZIPs into `dist/` |
 | `docs/` | [DEVELOPMENT.md](docs/DEVELOPMENT.md) (local dev site), [STEP0-research.md](docs/STEP0-research.md) (API findings, test accounts) |
 | `IDVERIFY_PLAN.md` | Plan, decisions log |
 
@@ -28,11 +29,12 @@ identities between sites: the stored codes are tied to each site's keys. On b5.e
 
 ## 1. Install
 
-1. Build or download the ZIPs: `local_idverify-<release>.zip` and `customcertelement_idverify-<release>.zip`
-   (`python build.py` writes them to `dist/`).
-2. *Site administration → Plugins → Install plugins*: install **local_idverify first**, then the element.
-   Without ZIP installs: upload the folders by FTP to `public/local/idverify` and
-   `public/mod/customcert/element/idverify`, then open *Site administration → Notifications*.
+1. Build or download the ZIPs: `local_idverify-<release>.zip`, `customcertelement_idverify-<release>.zip` and
+   `availability_idverify-<release>.zip` (`python build.py` writes them to `dist/`).
+2. *Site administration → Plugins → Install plugins*: install **local_idverify first**, then the element and the
+   restriction. Without ZIP installs: upload the folders by FTP to `public/local/idverify`,
+   `public/mod/customcert/element/idverify` and `public/availability/condition/idverify`, then open
+   *Site administration → Notifications*.
 3. The install creates the custom profile field **Identity verified** (`idverified`, checkbox, locked, not
    visible on profiles). The upgrade page also lists LDAP, Shibboleth and external database settings for this
    field. Leave them at their defaults.
@@ -97,13 +99,29 @@ $CFG->nokeygeneration = true;
 
 ## 5. Restrict the certificate to verified learners
 
-On the certificate activity: *Restrict access → Add restriction → User profile → **Identity verified** → **is equal
-to** → `1`*. The JSON form is `{"type":"profile","cf":"idverified","op":"isequalto","v":"1"}`.
+On the certificate activity: *Restrict access → Add restriction → **Identity verified*** (`availability_idverify`).
+The JSON form is `{"type":"idverify"}`; the course builder adds it automatically to the certificates it builds. It
+combines with the other restrictions (e.g. course completion) with AND.
 
-- Moodle reads this flag from the learner's session. The plugin updates it at once when learners verify
-  themselves.
-- After an admin verifies someone manually, the learner opens *My identity* (or logs in again) to pick it up.
-- An admin revoke logs the learner out.
+Learners who are not verified see *"Not available unless: your identity is verified (click here to verify)"*, in
+Estonian *"Pole saadaval, kui: sinu isik on tuvastatud (kliki siin tuvastamiseks)"*. The link opens *My identity*.
+The check reads the database, so it works straight after a self or manual verification.
+
+**Fails open by design:** certificates are issued as usual when
+
+- `availability_idverify` is not installed, or is disabled under *Site administration → Plugins → Availability
+  restrictions → Manage restrictions* (Moodle ignores the condition);
+- identity verification does not work on the site (no valid HMAC key, or *Identity provider* is Disabled). The
+  restriction then passes everyone; teachers see "(not enforced at the moment …)" next to it.
+
+The restriction covers every normal issuing path of customcert: viewing the activity, the mobile app, and
+automatic issuing and emailing. **Teachers can still issue a certificate by hand** (by marking the certificate
+activity complete for a learner), whether or not the learner is verified. The element then prints nothing for
+an unverified learner.
+
+Alternative without the restriction plugin: *User profile → **Identity verified** → **is equal to** → `1`*
+(`{"type":"profile","cf":"idverified","op":"isequalto","v":"1"}`). This does not fail open. It reads the flag from the
+learner's session, so a manually verified learner must open *My identity* or log in again first.
 
 ## 6. Where learners verify
 

@@ -1,16 +1,17 @@
 # Moodle plugin checks and PHPUnit tests (moodle-plugin-ci). Moodle 5.2+ only (public/ layout).
-# Two plugins live in this repository (not in its root): local/idverify and the customcert element
-# mod/customcert/element/idverify. Each is tested in its own job; mod_customcert is added from GitHub, and the
-# element job also installs local_idverify from this checkout as an extra plugin.
+# Three plugins live in this repository (not in its root): local/idverify, the customcert element
+# mod/customcert/element/idverify and the restriction availability/condition/idverify. Each is tested in its own
+# job; mod_customcert is added from GitHub, and the element and restriction jobs also install local_idverify from
+# this checkout as an extra plugin.
 
 name: Moodle Plugin CI
 
 # Only plugin code changes trigger CI (docs-only commits don't).
 on:
   push:
-    paths: ['local/**', 'mod/**', '.github/workflows/**']
+    paths: ['local/**', 'mod/**', 'availability/**', '.github/workflows/**']
   pull_request:
-    paths: ['local/**', 'mod/**', '.github/workflows/**']
+    paths: ['local/**', 'mod/**', 'availability/**', '.github/workflows/**']
 
 jobs:
   test:
@@ -36,6 +37,9 @@ jobs:
           - php: '8.3'
             moodle-branch: 'MOODLE_502_STABLE'
             plugin: 'mod/customcert/element/idverify'
+          - php: '8.3'
+            moodle-branch: 'MOODLE_502_STABLE'
+            plugin: 'availability/condition/idverify'
 
     steps:
       - name: Check out repository code

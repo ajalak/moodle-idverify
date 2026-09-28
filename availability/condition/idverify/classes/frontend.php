@@ -14,18 +14,18 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
+namespace availability_idverify;
+
 /**
- * Version details for local_idverify.
+ * Access restriction editor for "Identity verified".
  *
- * @package    local_idverify
+ * @package    availability_idverify
  * @copyright  2026 Andres
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
-defined('MOODLE_INTERNAL') || die();
-
-$plugin->component = 'local_idverify';
-$plugin->version   = 2026092800;        // YYYYMMDDXX.
-$plugin->requires  = 2026042000;        // Moodle 5.2.
-$plugin->maturity  = MATURITY_ALPHA;
-$plugin->release   = '0.6.0';
+class frontend extends \core_availability\frontend {
+    #[\Override]
+    protected function get_javascript_strings() {
+        return ['editorlabel'];
+    }
+}
