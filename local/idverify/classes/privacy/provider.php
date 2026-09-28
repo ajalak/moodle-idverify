@@ -28,9 +28,10 @@ use local_idverify\local\identity_manager;
 /**
  * Privacy provider for local_idverify.
  *
- * Lawful basis: legal obligation (GDPR Art. 6(1)(c)). Estonian adult education rules require the certificate
- * ("tunnistus") to show the learner's legal name and personal ID code; verification is how that data is
- * obtained reliably.
+ * Lawful basis: legal obligation (GDPR Art. 6(1)(c)). Under the Adult Education Act (Täiskasvanute koolituse seadus)
+ * and the Continuing Education Standard (Täienduskoolituse standard, RT I, 22.04.2025, 2), the continuing education
+ * certificate ("tunnistus") or attestation ("tõend") must show the learner's name and personal ID code, or the date
+ * of birth if there is none; verification is how that data is obtained reliably.
  *
  * All data lives in the data subject's user context. Export returns the learner's own data, including the
  * decrypted code. Deletion follows identity_manager::delete_personal_data(): an identity that has been printed on

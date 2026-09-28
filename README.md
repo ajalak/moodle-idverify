@@ -17,8 +17,9 @@ self-registration, Google or Microsoft).
 | `CHANGES.md` | [What each release contains](CHANGES.md) and known open items |
 | `IDVERIFY_PLAN.md` | Plan, decisions log |
 
-**Current release: 1.0.0-rc1** (release candidate, 2026-09-28): `local_idverify` 2026092802,
-`customcertelement_idverify` 2026092801, `availability_idverify` 2026092801. Install and upgrade the three together.
+**Current release: 1.0.0-rc2** (release candidate, 2026-09-28): `local_idverify` 1.0.0-rc2 (2026092803),
+`customcertelement_idverify` 1.0.0-rc1 (2026092801), `availability_idverify` 1.0.0-rc1 (2026092801). Install the three
+together; see [CHANGES.md](CHANGES.md).
 
 Requirements: Moodle 5.2+, `mod_customcert` 5.2.8+ (for the element), PHP `sodium` (standard in Moodle 5.2).
 
@@ -174,8 +175,17 @@ it is part of the certificate. customcert's public verification page never shows
 
 ## 8. Privacy and retention
 
-- **Lawful basis:** legal obligation (GDPR Art. 6(1)(c)). The certificate must show the legal name and personal
-  code. **TODO (site owner):** add the exact act and section to this README and to the privacy notice.
+- **Lawful basis:** legal obligation (GDPR Art. 6(1)(c)). Under the Adult Education Act (*Täiskasvanute koolituse
+  seadus*) and the **Continuing Education Standard** (*Täienduskoolituse standard*, regulation of the Minister of
+  Education and Research, in force from 25.04.2025, [RT I, 22.04.2025, 2](https://www.riigiteataja.ee/akt/122042025002)),
+  the continuing education certificate (*tunnistus*) and attestation (*tõend*) must show *"täienduskoolituses osalenud
+  või selle läbinud isiku nimi ja isikukood, selle puudumisel sünniaeg"* (wording as in the Ministry's 2025 guide
+  *Täiskasvanute täienduskoolitused*). The same text is in the plugin's privacy metadata. The exact section number of
+  the standard is still to be confirmed from Riigi Teataja.
+- **Retention (for the data protection officer):** since 01.04.2025 a continuing education provider must keep the
+  documents behind its performance indicators, including the register of issued certificates, for **at least three
+  years**. The plugin keeps identities printed on issued certificates until the DPO revokes them (see below); three
+  years after the last certificate is a reasonable review point.
 - **Stored:** the code (encrypted), its keyed hash, country, legal name, date of birth, method, provider, time, the
   admin and note for manual verifications, and a register of issued certificates that printed the identity (user,
   certificate, verification code, date).

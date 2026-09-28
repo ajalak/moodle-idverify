@@ -1,5 +1,15 @@
 # Changes
 
+## 1.0.0-rc2 (2026-09-28)
+
+Only `local_idverify` changes (2026092803); `customcertelement_idverify` and `availability_idverify` stay 1.0.0-rc1.
+
+- Legal reference for the lawful basis in the privacy metadata (en, et), the code comments and README §8: the Adult
+  Education Act (*Täiskasvanute koolituse seadus*) and the Continuing Education Standard (*Täienduskoolituse
+  standard*, RT I, 22.04.2025, 2): name and personal code, or date of birth, on the certificate and attestation.
+- README §8: the three-year retention of the certificate register (in force since 01.04.2025) as a review point for
+  the data protection officer.
+
 ## 1.0.0-rc1 (2026-09-28): release candidate
 
 The three plugins are released together and require each other's 1.0.0-rc1 versions:
@@ -35,7 +45,7 @@ Moodle 5.2+, `mod_customcert` 5.2.8+ for the element.
   not work (no HMAC key or no provider). Teachers can still issue certificates by hand.
 
 ### Known open items
-- The exact legal reference (act and section) for the lawful basis is still to be added to the README and the
-  privacy text (README §8).
+- The section number of the Continuing Education Standard that lists the certificate contents is still to be confirmed
+  from Riigi Teataja (the act and its RT reference are in place since 1.0.0-rc2).
 - Tested live against eID Easy's **test** environment with Smart-ID only. ID card, Mobile-ID and the production
   environment are covered by automated tests with recorded responses and still need a live check on the live site.

@@ -1,6 +1,6 @@
 # local_idverify — plan
 
-**Status:** **1.0.0-rc1** (release candidate, 2026-09-28): local_idverify, customcertelement_idverify and availability_idverify, all 1.0.0-rc1 (70 + 8 + 5 tests); ZIPs in `releases/`, git tag `v1.0.0-rc1`; see CHANGES.md. Open: the legal reference (README §8), live checks of ID card / Mobile-ID / production eID Easy on kera.ee.
+**Status:** **1.0.0-rc2** (2026-09-28): local_idverify 1.0.0-rc2 (legal reference added), customcertelement_idverify and availability_idverify 1.0.0-rc1; ZIPs in `releases/`, tag `v1.0.0-rc2`; see CHANGES.md. Open: the standard's section number (confirm from Riigi Teataja), live checks of ID card / Mobile-ID / production eID Easy on kera.ee, the b5.ee eID Easy error 0x7749.
 
 ## 1. Components
 
@@ -237,3 +237,9 @@ e. Privacy provider and remaining tests; README (install, config.php key, eID Ea
   valesti … 0x7749" (not documented; an internal reference). Nothing reached Moodle. The same client worked with
   `localhost` on 2026-09-27. The owner has asked eID Easy support about 0x7749 and pricing. Next: their answer;
   likely fix is an own eID Easy account with a test client that has the b5.ee redirect URI registered.
+- 2026-09-28: legal reference (Q7) settled from the Ministry of Education's 2025 guide *Täiskasvanute
+  täienduskoolitused*: Täiskasvanute koolituse seadus + Täienduskoolituse standard (RT I, 22.04.2025, 2, in force
+  25.04.2025): certificate and attestation show the name and isikukood, or the date of birth. Riigi Teataja itself
+  could not be read automatically, so the section number is still to be confirmed. The guide also gives a three-year
+  retention of the certificate register (since 01.04.2025), documented in README §8 as the DPO's review point.
+  Released as 1.0.0-rc2 (local_idverify only).

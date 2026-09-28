@@ -235,8 +235,9 @@ class identity_manager {
     /**
      * Delete a user's identity data for a privacy request or account deletion, unless it must be kept.
      *
-     * Lawful basis is legal obligation (GDPR Art. 6(1)(c)): Estonian adult education rules require the legal name
-     * and personal ID code on the certificate. While a verified identity exists and certificates have printed it
+     * Lawful basis is legal obligation (GDPR Art. 6(1)(c)): the Continuing Education Standard (Täienduskoolituse
+     * standard, RT I, 22.04.2025, 2, under the Adult Education Act) requires the name and personal ID code (or date of
+     * birth) on the certificate. While a verified identity exists and certificates have printed it
      * (rows in local_idverify_issued), nothing is deleted: the data is kept and an identity_retained event is
      * logged so the data protection officer can decide by hand, e.g. revoke after the retention period. Once the
      * identity is gone (never verified or revoked), the next request deletes the register rows too.
