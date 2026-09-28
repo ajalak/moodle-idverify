@@ -48,6 +48,20 @@ class my_identity implements named_templatable, renderable {
         return 'local_idverify/my_identity';
     }
 
+    /**
+     * The introduction above the verify button: the admin's text (setting "introtext", filtered, so multi-language
+     * content works) or the default language string.
+     *
+     * @return string HTML
+     */
+    public static function intro_html(): string {
+        $text = trim((string)get_config('local_idverify', 'introtext'));
+        if (trim(strip_tags($text)) === '') {
+            return \html_writer::tag('p', s(get_string('intro', 'local_idverify')));
+        }
+        return format_text($text, FORMAT_HTML, ['context' => \context_system::instance()]);
+    }
+
     #[\Override]
     public function export_for_template(renderer_base $output): array {
         $keyok = crypto::has_valid_key();
@@ -61,6 +75,7 @@ class my_identity implements named_templatable, renderable {
             'adminwarning' => !$keyok && has_capability('moodle/site:config', \context_system::instance()),
             'starturl' => (new \moodle_url('/local/idverify/start.php'))->out(false),
             'sesskey' => sesskey(),
+            'intro' => self::intro_html(),
         ];
 
         if ($identity) {

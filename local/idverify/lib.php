@@ -32,7 +32,7 @@ function local_idverify_status_checks(): array {
 }
 
 /**
- * Add a "My identity" link to the user's own profile page.
+ * Add the "Identity verification" line to "User details" on the profile page (owner and identity managers only).
  *
  * @param \core_user\output\myprofile\tree $tree
  * @param stdClass $user Profile owner.
@@ -40,18 +40,5 @@ function local_idverify_status_checks(): array {
  * @param stdClass|null $course
  */
 function local_idverify_myprofile_navigation(\core_user\output\myprofile\tree $tree, $user, $iscurrentuser, $course) {
-    if (
-        !$iscurrentuser || isguestuser($user)
-            || !has_capability('local/idverify:verifyself', \context_system::instance())
-    ) {
-        return;
-    }
-    $node = new \core_user\output\myprofile\node(
-        'miscellaneous',
-        'local_idverify',
-        get_string('myidentity', 'local_idverify'),
-        null,
-        new moodle_url('/local/idverify/index.php')
-    );
-    $tree->add_node($node);
+    \local_idverify\output\profile_status::add_to_tree($tree, $user, (bool)$iscurrentuser);
 }

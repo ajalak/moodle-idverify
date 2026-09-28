@@ -125,9 +125,16 @@ learner's session, so a manually verified learner must open *My identity* or log
 
 ## 6. Where learners verify
 
-- User menu: **Verify identity** (**My identity** once verified), and a link on the profile page.
+- User menu: **Verify identity** (**My identity** once verified).
+- Profile page, **User details**: a line **Identity verification**.
+  - Unverified: "Identity not verified" with **Verify now**. Hidden while verification does not work on the site.
+  - Verified: "Verified on <date> (Smart-ID)" or "Verified by an administrator on <date>", with a link to *My
+    identity*. The code and legal name are never shown there.
+  - Only the profile owner sees it. Identity managers (`local/idverify:manage`) also see it on other profiles,
+    with a link to the admin view.
 - Page: `/local/idverify/index.php`. It shows the status, the code masked (`4xxxxxx0009`), the method and the
-  date.
+  date. The introduction above the button is set under *Settings → Introduction on My identity* (empty = the
+  default text; the multi-language content filter works there).
 - Course callout: add a text-and-media area (label) with this HTML:
 
 ```html

@@ -25,7 +25,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'local_idverify';
-$plugin->version   = 2026092800;        // YYYYMMDDXX.
+$plugin->version   = 2026092801;        // YYYYMMDDXX.
 $plugin->requires  = 2026042000;        // Moodle 5.2.
 $plugin->maturity  = MATURITY_ALPHA;
-$plugin->release   = '0.6.0';
+$plugin->release   = '0.7.0';

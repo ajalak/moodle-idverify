@@ -1,6 +1,6 @@
 # local_idverify — plan
 
-**Status:** phases (a)–(e) done, plus the availability_idverify restriction (2026-09-28): local_idverify 0.6.0 (64 tests), customcertelement_idverify 0.1.0 (8), availability_idverify 0.1.0 (5). Course builder integration is in the moodle-coursebuilder repo. Open: the legal reference (README §8 TODO) and the kera.ee go-live.
+**Status:** phases (a)–(e) done, plus the availability_idverify restriction (2026-09-28): local_idverify 0.7.0 (70 tests), customcertelement_idverify 0.1.0 (8), availability_idverify 0.1.0 (5). Course builder integration is in the moodle-coursebuilder repo. Open: the legal reference (README §8 TODO) and the kera.ee go-live.
 
 ## 1. Components
 
@@ -225,3 +225,7 @@ e. Privacy provider and remaining tests; README (install, config.php key, eID Ea
   - the `idverified` profile field stays;
   - the course builder adds the restriction to the certificates it builds, only where `availability_idverify` is
     installed and enabled (moodle-coursebuilder repo).
+- 2026-09-28 (0.7.0): the introduction on My identity is an admin setting (`introtext`, HTML, filtered; empty =
+  default string). The profile page shows an "Identity verification" line in User details instead of a link under
+  Miscellaneous: unverified -> badge and "Verify now" (hidden while verification does not work), verified -> date
+  and method, never the code or name. Visible to the owner and to identity managers only.

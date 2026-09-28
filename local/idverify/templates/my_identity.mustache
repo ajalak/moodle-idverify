@@ -25,12 +25,13 @@
     * notavailable - bool, verification is switched off or not configured
     * adminwarning - bool, the HMAC key is missing (shown to site admins)
     * starturl, sesskey - verify button target
+    * intro - introduction HTML (admin setting or default string)
     * fullname, idcode (masked), birthdate, country, method, timeverified, nameslocked - when verified
 
     Example context (json):
     {
         "verified": true, "canstart": false, "notavailable": false, "adminwarning": false,
-        "starturl": "https://example.test/local/idverify/start.php", "sesskey": "abc",
+        "starturl": "https://example.test/local/idverify/start.php", "sesskey": "abc", "intro": "<p>Tuvasta oma isik.</p>",
         "fullname": "Mari Maasikas", "idcode": "4xxxxxx1234", "birthdate": null, "country": "EE",
         "method": "Smart-ID", "timeverified": "27 September 2026, 10:00", "nameslocked": true
     }
@@ -62,7 +63,7 @@
         {{/nameslocked}}
     {{/verified}}
     {{^verified}}
-        <p>{{#str}} intro, local_idverify {{/str}}</p>
+        <div class="local-idverify-intro">{{{intro}}}</div>
         {{#canstart}}
             <form method="post" action="{{starturl}}">
                 <input type="hidden" name="sesskey" value="{{sesskey}}">

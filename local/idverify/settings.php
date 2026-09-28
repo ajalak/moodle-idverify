@@ -74,6 +74,13 @@ if ($hassiteconfig) {
             1
         ));
 
+        $settings->add(new admin_setting_confightmleditor(
+            'local_idverify/introtext',
+            new lang_string('setting:introtext', 'local_idverify'),
+            new lang_string('setting:introtext_desc', 'local_idverify', get_string('intro', 'local_idverify')),
+            ''
+        ));
+
         $settings->add(new admin_setting_heading(
             'local_idverify/eideasyheading',
             new lang_string('setting:eideasyheading', 'local_idverify'),
