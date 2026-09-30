@@ -18,7 +18,7 @@ self-registration, Google or Microsoft).
 | `CHANGES.md` | [What each release contains](CHANGES.md) and known open items |
 | `IDVERIFY_PLAN.md` | Plan, decisions log |
 
-**Current release: 1.0.0-rc3** (release candidate, 2026-09-30): `local_idverify` 1.0.0-rc3 (2026093000),
+**Current release: 1.0.0-rc4** (release candidate, 2026-09-30): `local_idverify` 1.0.0-rc4 (2026093001),
 `customcertelement_idverify` 1.0.0-rc1 (2026092801), `availability_idverify` 1.0.0-rc1 (2026092801). Install the three
 together; see [CHANGES.md](CHANGES.md).
 
@@ -104,9 +104,11 @@ eeID is run by the Estonian Internet Foundation (EIS). A service belongs to exac
 3. Test users in the Test environment: Smart-ID **`39901012239`**; Mobile-ID phone **`68000769`** with code
    **`60001017869`** (see [docs/eeid-research.md](docs/eeid-research.md)).
 4. **Production:** add billing details on your eeID account and a prepaid balance (0.08 € per ID card, Mobile-ID or
-   Smart-ID authentication, as of 2026). When the balance runs out, EIS may suspend the service without notice; the
-   certificate restriction then lets everyone through (see §5), so keep the balance topped up (automatic reload is
-   available). The service is used under EIS's eeID terms of use (subscription agreement).
+   Smart-ID authentication, as of 2026). When the balance runs out, EIS may suspend the service without notice.
+   Verification then fails, but the certificate restriction **stays enforced** (it opens only when the plugin is
+   switched off or broken, see §5), so learners cannot get their certificates. Keep the balance topped up; the
+   plugin warns when the service seems down (see §7, *Service warning*). The service is used under EIS's eeID terms
+   of use (subscription agreement).
 
 How it works: the plugin sends the learner to eeID (OpenID Connect authorization code flow with `state`, `nonce`
 and PKCE), exchanges the returned code for a **signed ID token**, and checks its signature (eeID's published keys,
@@ -192,6 +194,21 @@ learner's session, so a manually verified learner must open *My identity* or log
 
 Teachers who can download learners' certificates (`mod/customcert:viewreport`) see the code on the PDF, because
 it is part of the certificate. customcert's public verification page never shows it.
+
+**Service warning.** eeID has no balance API, so the plugin watches for the symptoms of a suspended service (for
+example an empty prepaid balance) or a broken configuration:
+
+- **3 service-side failures in a row** (the token, discovery or key requests fail, or eeID returns an error such as
+  `unauthorized_client`). Learner-side failures (cancelled, wrong login method, expired or replayed attempt) do not
+  count.
+- **10 learners in a row went to eeID and none came back** to the site.
+
+The warning appears in *Reports → System status* (check *The identity verification service works*) and at the top
+of *Verified identities*, and is sent once to the site administrators and identity managers as a Moodle
+notification (*Identity verification service may be down*; e-mail on by default). It clears with the next
+successful verification or when the provider settings change. The warning never changes the restriction: a
+learner could produce these symptoms on purpose, so they must not open it. To let learners get their certificates
+while the service is down, teachers issue them by hand, or set the provider to *Disabled*.
 
 ## 8. Privacy and retention
 

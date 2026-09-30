@@ -1,5 +1,17 @@
 # Changes
 
+## 1.0.0-rc4 (2026-09-30): service warning
+
+Only `local_idverify` changes (2026093001); `customcertelement_idverify` and `availability_idverify` stay 1.0.0-rc1.
+
+- **Service warning** for a suspended eeID service (e.g. an empty prepaid balance) or a broken configuration:
+  raised after 3 service-side failures in a row, or 10 attempts in a row that never came back to the site. Shown in
+  *System status* (new check) and on *Verified identities*; sent once as a Moodle notification (new message
+  provider `servicewarning`, popup and e-mail) to site administrators and identity managers. Cleared by the next
+  successful verification or a change of the provider settings. Advisory only: it never opens the certificate
+  restriction. The counters are one plugin setting (`health`), with no personal data.
+- README §3: corrected. When the eeID service is suspended, the restriction stays enforced (it does not fail open).
+
 ## 1.0.0-rc3 (2026-09-30): eeID replaces eID Easy
 
 Only `local_idverify` changes (2026093000); `customcertelement_idverify` and `availability_idverify` stay 1.0.0-rc1.

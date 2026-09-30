@@ -58,7 +58,9 @@ class flow {
     public static function begin(provider_interface $provider): \moodle_url {
         crypto::require_valid_key();
         $state = state::create($provider->get_name());
-        return $provider->start($state, self::callback_url(), current_language());
+        $url = $provider->start($state, self::callback_url(), current_language());
+        service_health::record_start($provider->get_name());
+        return $url;
     }
 
     /**
@@ -80,11 +82,15 @@ class flow {
                 throw new provider_exception('provider_unavailable');
             }
             $person = $provider->handle_callback($params, self::callback_url());
+            service_health::record_success($name);
             return identity_manager::verify((int)$USER->id, $person);
         } catch (conflict_exception $e) {
             throw $e;
         } catch (\moodle_exception $e) {
             $reason = $e instanceof provider_exception ? $e->reason : str_replace(':', '_', $e->errorcode);
+            if (isset($name)) {
+                service_health::record_failure($name, $reason);
+            }
             verification_failed::create([
                 'relateduserid' => (int)$USER->id,
                 'context' => \context_system::instance(),

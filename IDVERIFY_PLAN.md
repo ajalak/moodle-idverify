@@ -1,6 +1,6 @@
 # local_idverify — plan
 
-**Status:** **1.0.0-rc3** (2026-09-30): eeID replaces eID Easy (local_idverify 1.0.0-rc3; element and restriction 1.0.0-rc1); 66 + 8 + 5 tests. Open: live eeID test (needs an approved eeID Test service), the standard's section number, live checks on kera.ee.
+**Status:** **1.0.0-rc4** (2026-09-30): eeID replaces eID Easy, plus the service warning (local_idverify 1.0.0-rc4; element and restriction 1.0.0-rc1); 73 + 8 + 5 tests. Open: live eeID test (needs an approved eeID Test service), the standard's section number, live checks on kera.ee.
 
 ## 1. Components
 
@@ -250,10 +250,15 @@ e. Privacy provider and remaining tests; README (install, config.php key, eID Ea
   - `acr` logged, not enforced;
   - the eeID service is on the owner's own eeID account.
 
-  The admin warning on running out of prepaid balance was not decided and is not built. Implementation:
+  The admin warning on running out of prepaid balance was built later (rc4, below). Implementation:
   - OIDC code flow with state, nonce and PKCE;
   - signed ID token verified with Moodle core's Firebase JWT (no Composer);
   - issuer taken from the discovery document, because the docs example differs;
   - `amr` whitelist `idcard` / `mID` / `smartid`.
 
   The b5.ee eID Easy error 0x7749 no longer matters.
+- 2026-09-30: **service warning** built on the owner's request (1.0.0-rc4). eeID has no balance API, so it watches
+  symptoms: 3 service-side failures in a row, or 10 attempts that never came back. System status check, notice on
+  the admin page, one Moodle notification to admins and identity managers. Advisory only: the symptoms can be
+  produced by a learner, so the warning must never open the restriction (the restriction stays enforced while the
+  service is down; teachers issue by hand, or the admin disables the provider).

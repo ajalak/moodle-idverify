@@ -28,7 +28,7 @@
  * @return \core\check\check[]
  */
 function local_idverify_status_checks(): array {
-    return [new \local_idverify\check\hmackey()];
+    return [new \local_idverify\check\hmackey(), new \local_idverify\check\service()];
 }
 
 /**

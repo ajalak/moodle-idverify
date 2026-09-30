@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
- * Version details for local_idverify.
+ * Message providers for local_idverify.
  *
  * @package    local_idverify
  * @copyright  2026 Andres
@@ -24,8 +24,13 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->component = 'local_idverify';
-$plugin->version   = 2026093001;        // YYYYMMDDXX.
-$plugin->requires  = 2026042000;        // Moodle 5.2.
-$plugin->maturity  = MATURITY_RC;
-$plugin->release   = '1.0.0-rc4';
+$messageproviders = [
+    // The identity provider seems to be down (for example the eeID prepaid balance ran out).
+    'servicewarning' => [
+        'capability' => 'local/idverify:manage',
+        'defaults' => [
+            'popup' => MESSAGE_PERMITTED + MESSAGE_DEFAULT_ENABLED,
+            'email' => MESSAGE_PERMITTED + MESSAGE_DEFAULT_ENABLED,
+        ],
+    ],
+];

@@ -70,6 +70,11 @@ if ($records) {
 echo $OUTPUT->header();
 echo $OUTPUT->heading(get_string('manage', 'local_idverify'));
 
+$warning = \local_idverify\local\service_health::get_warning();
+if ($warning !== null) {
+    echo $OUTPUT->notification(\local_idverify\local\service_health::describe($warning), 'warning', false);
+}
+
 echo html_writer::start_div('d-flex flex-wrap gap-2 mb-3 align-items-center');
 echo html_writer::start_tag('form', ['method' => 'get', 'action' => $baseurl->out_omit_querystring(), 'class' => 'd-flex gap-2']);
 echo html_writer::empty_tag('input', ['type' => 'search', 'name' => 'q', 'value' => $q, 'class' => 'form-control',

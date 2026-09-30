@@ -26,6 +26,7 @@ defined('MOODLE_INTERNAL') || die();
 
 use local_idverify\local\crypto;
 use local_idverify\local\flow;
+use local_idverify\local\service_health;
 use local_idverify\local\verified_person;
 use local_idverify\provider\mock;
 use local_idverify\provider\registry;
@@ -51,13 +52,15 @@ if ($hassiteconfig) {
             ));
         }
 
-        $settings->add(new admin_setting_configselect(
+        $setting = new admin_setting_configselect(
             'local_idverify/provider',
             new lang_string('setting:provider', 'local_idverify'),
             new lang_string('setting:provider_desc', 'local_idverify'),
             '',
             ['' => get_string('provider:none', 'local_idverify')] + registry::get_choices()
-        ));
+        );
+        $setting->set_updatedcallback([service_health::class, 'reset']);
+        $settings->add($setting);
 
         $settings->add(new admin_setting_configtext(
             'local_idverify/allowedcountries',
@@ -87,7 +90,7 @@ if ($hassiteconfig) {
             new lang_string('setting:eeidheading_desc', 'local_idverify', flow::callback_url()->out(false))
         ));
 
-        $settings->add(new admin_setting_configselect(
+        $setting = new admin_setting_configselect(
             'local_idverify/eeid_env',
             new lang_string('setting:eeid_env', 'local_idverify'),
             new lang_string('setting:eeid_env_desc', 'local_idverify'),
@@ -96,22 +99,28 @@ if ($hassiteconfig) {
                 'test' => new lang_string('setting:eeid_env_test', 'local_idverify'),
                 'production' => new lang_string('setting:eeid_env_production', 'local_idverify'),
             ]
-        ));
+        );
+        $setting->set_updatedcallback([service_health::class, 'reset']);
+        $settings->add($setting);
 
-        $settings->add(new admin_setting_configtext(
+        $setting = new admin_setting_configtext(
             'local_idverify/eeid_clientid',
             new lang_string('setting:eeid_clientid', 'local_idverify'),
             '',
             '',
             PARAM_ALPHANUMEXT
-        ));
+        );
+        $setting->set_updatedcallback([service_health::class, 'reset']);
+        $settings->add($setting);
 
-        $settings->add(new admin_setting_configpasswordunmask(
+        $setting = new admin_setting_configpasswordunmask(
             'local_idverify/eeid_secret',
             new lang_string('setting:eeid_secret', 'local_idverify'),
             new lang_string('setting:eeid_secret_desc', 'local_idverify'),
             ''
-        ));
+        );
+        $setting->set_updatedcallback([service_health::class, 'reset']);
+        $settings->add($setting);
 
         if (mock::allowed()) {
             $settings->add(new admin_setting_heading(
