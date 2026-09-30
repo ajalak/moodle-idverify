@@ -196,7 +196,8 @@ class identity_manager {
             'objectid' => $record->id,
             'relateduserid' => $userid,
             'context' => \context_system::instance(),
-            'other' => ['method' => $person->method, 'provider' => $person->provider],
+            'other' => ['method' => $person->method, 'provider' => $person->provider]
+                + ($person->assurance !== null ? ['acr' => $person->assurance] : []),
         ])->trigger();
 
         return $record;

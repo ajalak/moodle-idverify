@@ -1,7 +1,8 @@
 # Identity verification for Moodle (`local_idverify`)
 
 Learners verify their identity once with **Smart-ID, ID card or Mobile-ID** through
-[eID Easy](https://eideasy.com). The plugin stores their legal name and personal identification code
+[eeID](https://eeid.ee), the identification service of the Estonian Internet Foundation (OpenID Connect). The plugin
+stores their legal name and personal identification code
 (isikukood), encrypted, and a certificate element prints them on the course certificate (tunnistus), as Estonian
 adult education rules require. Login is not affected: verification is an attribute of an existing account (email
 self-registration, Google or Microsoft).
@@ -13,11 +14,11 @@ self-registration, Google or Microsoft).
 | `availability/condition/idverify/` | Access restriction `availability_idverify` ("Identity verified"), which gates the certificate |
 | `releases/` | The current installable ZIPs of the three plugins (download without Python) |
 | `build.py` | Builds the three ZIPs into `dist/` and copies them to `releases/` |
-| `docs/` | [DEVELOPMENT.md](docs/DEVELOPMENT.md) (local dev site), [STEP0-research.md](docs/STEP0-research.md) (API findings, test accounts) |
+| `docs/` | [DEVELOPMENT.md](docs/DEVELOPMENT.md) (local dev site), [eeid-research.md](docs/eeid-research.md) (eeID API findings, test users), [STEP0-research.md](docs/STEP0-research.md) (original research; its eID Easy part is historical) |
 | `CHANGES.md` | [What each release contains](CHANGES.md) and known open items |
 | `IDVERIFY_PLAN.md` | Plan, decisions log |
 
-**Current release: 1.0.0-rc2** (release candidate, 2026-09-28): `local_idverify` 1.0.0-rc2 (2026092803),
+**Current release: 1.0.0-rc3** (release candidate, 2026-09-30): `local_idverify` 1.0.0-rc3 (2026093000),
 `customcertelement_idverify` 1.0.0-rc1 (2026092801), `availability_idverify` 1.0.0-rc1 (2026092801). Install the three
 together; see [CHANGES.md](CHANGES.md).
 
@@ -25,10 +26,10 @@ Requirements: Moodle 5.2+, `mod_customcert` 5.2.8+ (for the element), PHP `sodiu
 
 ## Sites
 
-| Site | Role | eID Easy |
+| Site | Role | eeID |
 |---|---|---|
-| b5.ee | Sandbox; no real services connected | Environment *Test* with the public sandbox credentials, test identities only (or provider *Disabled*) |
-| kera.ee | Live site | Environment *Production* with its own eID Easy registration (redirect URI `https://kera.ee/local/idverify/callback.php`) |
+| b5.ee | Sandbox; no real services connected | A **Test** eeID service (free, test users only), or provider *Disabled* |
+| kera.ee | Live site | A **Production** eeID service (paid per authentication) with redirect URL `https://kera.ee/local/idverify/callback.php` |
 
 Each site has **its own HMAC key** and its own backups of that key and `moodledata/secret/`. Never copy verified
 identities between sites: the stored codes are tied to each site's keys. On b5.ee they are test data anyway.
@@ -77,21 +78,40 @@ $CFG->nokeygeneration = true;
   settings page and in *Reports → System status*.
 - Never commit either key, and never send them by email.
 
-## 3. eID Easy
+## 3. eeID
 
-1. Sign up at https://id.eideasy.com, go to *My Webpages → Register new webpage*, and register the redirect URI
-   **`https://<your site>/local/idverify/callback.php`** (the settings page shows the exact URI). Enable only
-   **Estonian Smart-ID, ID card and Mobile-ID**. The plugin refuses other login methods (e.g. Google) anyway.
+eeID is run by the Estonian Internet Foundation (EIS). A service belongs to exactly one environment: create a
+**Test** service first (free, test users only), and later a separate **Production** service for the live site.
+
+1. Sign in at https://eeid.ee, then *Services → + Create New Service*:
+   - **Type:** *Authentication*
+   - **Service name:** shown to learners on the eeID page (translations for et / en / ru are possible)
+   - **Redirection URLs:** **`https://<your site>/local/idverify/callback.php`** (the settings page shows the exact
+     URL; one per line, HTTPS required except for `localhost`)
+   - **Environment:** *Test* or *Production*
+   - **Authentication scope:** `openid` only
+   - **Authentication methods:** Estonian **ID card, Mobile-ID and Smart-ID**. The plugin refuses passkeys and
+     cross-border (eIDAS) logins anyway.
+   - **Consent screen:** may be skipped. **Age restriction:** off.
+   - *Submit for approval*. After EIS approves it, the service page shows the **Client ID** and **Secret**.
 2. *Site administration → Plugins → Local plugins → Identity verification*:
-   - **Environment:** *Production* (`id.eideasy.com`)
-   - **Client ID** and **Client secret** from eID Easy
-   - **Identity provider:** *eID Easy*
+   - **Environment:** the service's environment (*Test* = `test-auth.eeid.ee`, *Production* = `auth.eeid.ee`)
+   - **Client ID** and **Client secret** of that service
+   - **Identity provider:** *eeID*
    - **Allowed countries:** `EE`
-   - **Use legal name:** on, so the account's first and last name become the legal name and are locked
-3. Test first with Environment *Test* (`test.eideasy.com`). It uses the public sandbox client id and secret from
-   https://docs.eideasy.com/guide/test-environment.html, and only test identities work there. The Smart-ID test
-   account **`40404040009`** approves automatically. See [docs/STEP0-research.md](docs/STEP0-research.md) §2 for
-   more accounts; the code `30303039914` on eID Easy's own page no longer works.
+   - **Use legal name:** on, so the account's first and last name become the legal name (as the ID card or eID gives
+     it, e.g. in capitals) and are locked
+3. Test users in the Test environment: Smart-ID **`39901012239`**; Mobile-ID phone **`68000769`** with code
+   **`60001017869`** (see [docs/eeid-research.md](docs/eeid-research.md)).
+4. **Production:** add billing details on your eeID account and a prepaid balance (0.08 € per ID card, Mobile-ID or
+   Smart-ID authentication, as of 2026). When the balance runs out, EIS may suspend the service without notice; the
+   certificate restriction then lets everyone through (see §5), so keep the balance topped up (automatic reload is
+   available). The service is used under EIS's eeID terms of use (subscription agreement).
+
+How it works: the plugin sends the learner to eeID (OpenID Connect authorization code flow with `state`, `nonce`
+and PKCE), exchanges the returned code for a **signed ID token**, and checks its signature (eeID's published keys,
+cached for a day), issuer, audience, validity times and nonce before storing anything. The eIDAS level of assurance
+(`acr`) is logged with the *Identity verified* event.
 
 ## 4. Put the code on the certificate
 
@@ -198,8 +218,10 @@ it is part of the certificate. customcert's public verification page never shows
   - **Printed on an issued certificate:** nothing is deleted automatically. The event *Identity data retained
     (issued certificates)* is logged. The data protection officer decides: after the retention period, revoke the
     identity on the admin page. The next deletion request then also removes the register.
-- **eID Easy:** Moodle sends only its client id and a random `state`. The learner authenticates at eID Easy, and
-  Moodle receives the code, name and date of birth.
+- **eeID:** Moodle sends only its client id and random security values (`state`, `nonce`, PKCE challenge). The
+  learner authenticates at eeID, and Moodle receives the code, name, date of birth, method and level of assurance.
+  EIS keeps its own logs (time, IP address, method, errors) for three months (eeID terms of use 6.4). Ask EIS for
+  the data protection conditions (Annex 2 of the subscription agreement) before going live.
 
 ## 9. Events
 

@@ -1,5 +1,22 @@
 # Changes
 
+## 1.0.0-rc3 (2026-09-30): eeID replaces eID Easy
+
+Only `local_idverify` changes (2026093000); `customcertelement_idverify` and `availability_idverify` stay 1.0.0-rc1.
+
+- New identity provider **eeID** (Estonian Internet Foundation): OpenID Connect authorization code flow with
+  `state`, `nonce` and PKCE (S256); `client_secret_basic`; the identity is read from the **signed ID token**
+  (RS256), checked against eeID's key set (cached for a day, refetched once on an unknown key), the issuer from the
+  discovery document, the audience, validity times and the nonce. Test and production environments.
+- Only ID card, Mobile-ID and Smart-ID are accepted (`amr`); passkeys and cross-border eIDAS logins are refused.
+  Names are kept as eeID sends them. The eIDAS level of assurance (`acr`) is logged with `identity_verified`, not
+  enforced.
+- **eID Easy removed** (provider, settings, strings, privacy metadata, tests). The upgrade switches a site that used
+  eID Easy to *Disabled* and deletes the eID Easy client id and secret. Identities verified through eID Easy stay
+  (provider `eideasy`).
+- Privacy metadata: external location eeID, including that EIS keeps its logs for three months.
+- Docs: README §3 (eeID service registration, test users, billing), docs/eeid-research.md.
+
 ## 1.0.0-rc2 (2026-09-28)
 
 Only `local_idverify` changes (2026092803); `customcertelement_idverify` and `availability_idverify` stay 1.0.0-rc1.
@@ -47,5 +64,6 @@ Moodle 5.2+, `mod_customcert` 5.2.8+ for the element.
 ### Known open items
 - The section number of the Continuing Education Standard that lists the certificate contents is still to be confirmed
   from Riigi Teataja (the act and its RT reference are in place since 1.0.0-rc2).
-- Tested live against eID Easy's **test** environment with Smart-ID only. ID card, Mobile-ID and the production
-  environment are covered by automated tests with recorded responses and still need a live check on the live site.
+- eeID (from 1.0.0-rc3) is covered by automated tests with signed test tokens and was checked against eeID's real
+  test discovery document and key set, but not yet with a live login: that needs an approved eeID Test service.
+  Then ID card, Mobile-ID and the production service on the live site.

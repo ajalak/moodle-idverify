@@ -26,7 +26,7 @@ namespace local_idverify\provider;
 class registry {
     /** Provider name => class. */
     public const PROVIDERS = [
-        'eideasy' => eideasy::class,
+        'eeid' => eeid::class,
         'mock' => mock::class,
     ];
 

@@ -15,17 +15,30 @@
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
- * Version details for local_idverify.
+ * Upgrade steps for local_idverify.
  *
  * @package    local_idverify
  * @copyright  2026 Andres
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
-
-$plugin->component = 'local_idverify';
-$plugin->version   = 2026093000;        // YYYYMMDDXX.
-$plugin->requires  = 2026042000;        // Moodle 5.2.
-$plugin->maturity  = MATURITY_RC;
-$plugin->release   = '1.0.0-rc3';
+/**
+ * Upgrade local_idverify.
+ *
+ * @param int $oldversion
+ * @return bool
+ */
+function xmldb_local_idverify_upgrade($oldversion) {
+    if ($oldversion < 2026093000) {
+        // 1.0.0-rc3: eID Easy replaced by eeID. Switch verification off until eeID is configured, and delete the
+        // eID Easy credentials. Identities verified through eID Easy stay as they are (provider "eideasy").
+        if (get_config('local_idverify', 'provider') === 'eideasy') {
+            set_config('provider', '', 'local_idverify');
+        }
+        foreach (['eideasy_env', 'eideasy_clientid', 'eideasy_secret'] as $name) {
+            unset_config($name, 'local_idverify');
+        }
+        upgrade_plugin_savepoint(true, 2026093000, 'local', 'idverify');
+    }
+    return true;
+}

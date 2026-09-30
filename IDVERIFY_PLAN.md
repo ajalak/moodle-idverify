@@ -1,6 +1,6 @@
 # local_idverify — plan
 
-**Status:** **1.0.0-rc2** (2026-09-28): local_idverify 1.0.0-rc2 (legal reference added), customcertelement_idverify and availability_idverify 1.0.0-rc1; ZIPs in `releases/`, tag `v1.0.0-rc2`; see CHANGES.md. Open: the standard's section number (confirm from Riigi Teataja), live checks of ID card / Mobile-ID / production eID Easy on kera.ee, the b5.ee eID Easy error 0x7749.
+**Status:** **1.0.0-rc3** (2026-09-30): eeID replaces eID Easy (local_idverify 1.0.0-rc3; element and restriction 1.0.0-rc1); 66 + 8 + 5 tests. Open: live eeID test (needs an approved eeID Test service), the standard's section number, live checks on kera.ee.
 
 ## 1. Components
 
@@ -243,3 +243,17 @@ e. Privacy provider and remaining tests; README (install, config.php key, eID Ea
   could not be read automatically, so the section number is still to be confirmed. The guide also gives a three-year
   retention of the certificate register (since 01.04.2025), documented in README §8 as the DPO's review point.
   Released as 1.0.0-rc2 (local_idverify only).
+- 2026-09-30: **eeID replaces eID Easy** (owner's decision after reviewing eeID, see docs/eeid-research.md). Owner's
+  choices:
+  - eID Easy removed completely; the upgrade disables a site that used it and deletes its credentials;
+  - names kept exactly as eeID sends them (capitals);
+  - `acr` logged, not enforced;
+  - the eeID service is on the owner's own eeID account.
+
+  The admin warning on running out of prepaid balance was not decided and is not built. Implementation:
+  - OIDC code flow with state, nonce and PKCE;
+  - signed ID token verified with Moodle core's Firebase JWT (no Composer);
+  - issuer taken from the discovery document, because the docs example differs;
+  - `amr` whitelist `idcard` / `mID` / `smartid`.
+
+  The b5.ee eID Easy error 0x7749 no longer matters.

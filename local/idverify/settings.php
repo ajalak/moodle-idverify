@@ -82,34 +82,34 @@ if ($hassiteconfig) {
         ));
 
         $settings->add(new admin_setting_heading(
-            'local_idverify/eideasyheading',
-            new lang_string('setting:eideasyheading', 'local_idverify'),
-            new lang_string('setting:eideasyheading_desc', 'local_idverify', flow::callback_url()->out(false))
+            'local_idverify/eeidheading',
+            new lang_string('setting:eeidheading', 'local_idverify'),
+            new lang_string('setting:eeidheading_desc', 'local_idverify', flow::callback_url()->out(false))
         ));
 
         $settings->add(new admin_setting_configselect(
-            'local_idverify/eideasy_env',
-            new lang_string('setting:eideasy_env', 'local_idverify'),
-            new lang_string('setting:eideasy_env_desc', 'local_idverify'),
+            'local_idverify/eeid_env',
+            new lang_string('setting:eeid_env', 'local_idverify'),
+            new lang_string('setting:eeid_env_desc', 'local_idverify'),
             'test',
             [
-                'test' => new lang_string('setting:eideasy_env_test', 'local_idverify'),
-                'production' => new lang_string('setting:eideasy_env_production', 'local_idverify'),
+                'test' => new lang_string('setting:eeid_env_test', 'local_idverify'),
+                'production' => new lang_string('setting:eeid_env_production', 'local_idverify'),
             ]
         ));
 
         $settings->add(new admin_setting_configtext(
-            'local_idverify/eideasy_clientid',
-            new lang_string('setting:eideasy_clientid', 'local_idverify'),
+            'local_idverify/eeid_clientid',
+            new lang_string('setting:eeid_clientid', 'local_idverify'),
             '',
             '',
             PARAM_ALPHANUMEXT
         ));
 
         $settings->add(new admin_setting_configpasswordunmask(
-            'local_idverify/eideasy_secret',
-            new lang_string('setting:eideasy_secret', 'local_idverify'),
-            new lang_string('setting:eideasy_secret_desc', 'local_idverify'),
+            'local_idverify/eeid_secret',
+            new lang_string('setting:eeid_secret', 'local_idverify'),
+            new lang_string('setting:eeid_secret_desc', 'local_idverify'),
             ''
         ));
 

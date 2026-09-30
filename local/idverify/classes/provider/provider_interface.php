@@ -28,7 +28,7 @@ use local_idverify\local\verified_person;
  */
 interface provider_interface {
     /**
-     * Short provider name stored with the identity (e.g. "eideasy").
+     * Short provider name stored with the identity (e.g. "eeid").
      *
      * @return string
      */

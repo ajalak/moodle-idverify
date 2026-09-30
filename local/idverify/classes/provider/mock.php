@@ -29,7 +29,7 @@ use local_idverify\local\verified_person;
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class mock implements provider_interface {
-    /** Default fake person (a valid-checksum test code from the eID Easy docs; not a real person). */
+    /** Default fake person (a test code with a valid checksum; not a real person). */
     public const DEFAULTS = [
         'country' => 'EE',
         'idcode' => '30303039914',

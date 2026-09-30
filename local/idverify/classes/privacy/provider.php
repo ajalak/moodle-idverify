@@ -74,14 +74,15 @@ class provider implements
             'timeissued' => 'privacy:metadata:issued:timeissued',
         ], 'privacy:metadata:issued');
 
-        // The learner signs in at eID Easy directly; Moodle sends only its client id and a random state, and
-        // receives the fields below back.
-        $collection->add_external_location_link('eideasy', [
-            'idcode' => 'privacy:metadata:eideasy:idcode',
-            'firstname' => 'privacy:metadata:eideasy:firstname',
-            'lastname' => 'privacy:metadata:eideasy:lastname',
-            'birthdate' => 'privacy:metadata:eideasy:birthdate',
-        ], 'privacy:metadata:eideasy');
+        // The learner signs in at eeID (Estonian Internet Foundation) directly; Moodle sends only its client id and
+        // random values (state, nonce, PKCE challenge), and receives the fields below back in a signed ID token.
+        $collection->add_external_location_link('eeid', [
+            'idcode' => 'privacy:metadata:eeid:idcode',
+            'firstname' => 'privacy:metadata:eeid:firstname',
+            'lastname' => 'privacy:metadata:eeid:lastname',
+            'birthdate' => 'privacy:metadata:eeid:birthdate',
+            'method' => 'privacy:metadata:eeid:method',
+        ], 'privacy:metadata:eeid');
 
         $collection->add_subsystem_link('core_user', [], 'privacy:metadata:core_user');
         return $collection;

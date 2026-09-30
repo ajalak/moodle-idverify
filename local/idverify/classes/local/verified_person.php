@@ -42,7 +42,9 @@ final class verified_person {
      * @param string $lastname Legal last name.
      * @param string|null $birthdate YYYY-MM-DD, if known.
      * @param string $method One of the METHOD_ constants.
-     * @param string $provider Provider name (eideasy, mock, manual).
+     * @param string $provider Provider name (eeid, mock, manual).
+     * @param string|null $assurance eIDAS level of assurance reported by the provider (low, substantial, high), if
+     *     any. Logged with the identity_verified event only; not enforced.
      */
     public function __construct(
         /** @var string Country */
@@ -59,6 +61,8 @@ final class verified_person {
         public readonly string $method,
         /** @var string Provider */
         public readonly string $provider,
+        /** @var string|null Level of assurance */
+        public readonly ?string $assurance = null,
     ) {
     }
 

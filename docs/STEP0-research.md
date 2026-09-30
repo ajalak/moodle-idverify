@@ -1,5 +1,8 @@
 # Step 0 — Investigation findings
 
+> **Note (2026-09-30):** eID Easy (§2) was replaced by eeID in 1.0.0-rc3; see [eeid-research.md](eeid-research.md).
+> §2 is kept for history.
+
 Read on 2026-09-27. Moodle source: tag `v5.2.3` (local copy `D:\MoodleDev\moodle`). Live site: b5.ee, Moodle
 5.2.3 (Build 20260914), checked with the coursebuilder `server_info` tool.
 

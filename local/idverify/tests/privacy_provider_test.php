@@ -59,7 +59,7 @@ final class privacy_provider_test extends \core_privacy\tests\provider_testcase 
             'Test',
             null,
             verified_person::METHOD_SMARTID,
-            'eideasy'
+            'eeid'
         ));
         if ($issued) {
             $DB->insert_record('local_idverify_issued', (object)['userid' => $user->id, 'customcertid' => 7,
@@ -69,14 +69,14 @@ final class privacy_provider_test extends \core_privacy\tests\provider_testcase 
     }
 
     /**
-     * Metadata lists both tables, eID Easy and the core_user link.
+     * Metadata lists both tables, eeID and the core_user link.
      */
     public function test_metadata(): void {
         $items = provider::get_metadata(new collection('local_idverify'))->get_collection();
         $names = array_map(fn($item) => $item->get_name(), $items);
         $this->assertContains('local_idverify_identity', $names);
         $this->assertContains('local_idverify_issued', $names);
-        $this->assertContains('eideasy', $names);
+        $this->assertContains('eeid', $names);
         $this->assertContains('core_user', $names);
     }
 
