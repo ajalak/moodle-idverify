@@ -88,4 +88,6 @@ Moodle 5.2+, `mod_customcert` 5.2.8+ for the element.
   from Riigi Teataja (the act and its RT reference are in place since 1.0.0-rc2).
 - eeID: a live Smart-ID login on the eeID Test environment passed on the dev site (2026-10-01: signed ID token
   accepted, name and method stored, birth date taken from the code, `acr` = `high` logged), and on b5.ee the same day.
-  Still to do: Mobile-ID and ID card, and the production service on the live site.
+  Mobile-ID passed on the dev site too (name and birth date from eeID, `acr` = `high`; the duplicate check refused
+  the code while another account held it). Still to do: ID card (needs a test card) and the production service on
+  the live site.

@@ -1,6 +1,6 @@
 # local_idverify — plan
 
-**Status:** **1.0.0-rc5** (2026-10-01): eeID, service warning, Continue button (local_idverify 1.0.0-rc5, restriction 1.0.0-rc2, element 1.0.0-rc1); 75 + 8 + 5 tests. Live Smart-ID login on eeID Test passed on the dev site and on b5.ee (2026-10-01). Open: Mobile-ID / ID card live tests, the standard's section number, live checks on kera.ee.
+**Status:** **1.0.0-rc5** (2026-10-01): eeID, service warning, Continue button (local_idverify 1.0.0-rc5, restriction 1.0.0-rc2, element 1.0.0-rc1); 75 + 8 + 5 tests. Live eeID Test logins passed (2026-10-01): Smart-ID on the dev site and b5.ee, Mobile-ID on the dev site. Open: ID card live test, the standard's section number, live checks on kera.ee.
 
 ## 1. Components
 
