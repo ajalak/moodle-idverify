@@ -76,6 +76,6 @@ Moodle 5.2+, `mod_customcert` 5.2.8+ for the element.
 ### Known open items
 - The section number of the Continuing Education Standard that lists the certificate contents is still to be confirmed
   from Riigi Teataja (the act and its RT reference are in place since 1.0.0-rc2).
-- eeID (from 1.0.0-rc3) is covered by automated tests with signed test tokens and was checked against eeID's real
-  test discovery document and key set, but not yet with a live login: that needs an approved eeID Test service.
-  Then ID card, Mobile-ID and the production service on the live site.
+- eeID: a live Smart-ID login on the eeID Test environment passed on the dev site (2026-10-01: signed ID token
+  accepted, name and method stored, birth date taken from the code, `acr` = `high` logged). Still to do: Mobile-ID
+  and ID card, b5.ee, and the production service on the live site.
