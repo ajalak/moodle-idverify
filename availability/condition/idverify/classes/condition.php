@@ -102,7 +102,7 @@ class condition extends \core_availability\condition {
             return get_string('requires_notverified', 'availability_idverify');
         }
         $link = \html_writer::link(
-            new \moodle_url('/local/idverify/index.php'),
+            new \moodle_url('/local/idverify/index.php', ['returnurl' => self::return_url($info)->out_as_local_url(false)]),
             get_string('verifylink', 'availability_idverify')
         );
         $description = get_string('requires_verified', 'availability_idverify', $link);
@@ -110,6 +110,21 @@ class condition extends \core_availability\condition {
             $description .= ' ' . get_string('notenforced', 'availability_idverify');
         }
         return $description;
+    }
+
+    /**
+     * Where the learner returns after verifying: the restricted activity, or else the course.
+     *
+     * @param info $info
+     * @return \moodle_url
+     */
+    protected static function return_url(info $info): \moodle_url {
+        if ($info instanceof \core_availability\info_module) {
+            // Built by hand: cm_info::get_url() can compute availability again while modinfo is being built.
+            $cm = $info->get_course_module();
+            return new \moodle_url('/mod/' . $cm->modname . '/view.php', ['id' => $cm->id]);
+        }
+        return new \moodle_url('/course/view.php', ['id' => $info->get_course()->id]);
     }
 
     #[\Override]

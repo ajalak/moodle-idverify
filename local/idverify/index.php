@@ -31,6 +31,10 @@ if (isguestuser()) {
 $context = context_system::instance();
 require_capability('local/idverify:verifyself', $context);
 
+// Where to go back to after verifying: an explicit returnurl (restriction, profile) or the referring page.
+$returnurl = optional_param('returnurl', '', PARAM_LOCALURL);
+\local_idverify\local\flow::remember_return($returnurl !== '' ? $returnurl : get_local_referer(false));
+
 // An admin may have verified or revoked this user during their session.
 \local_idverify\local\identity_manager::sync_session_flag();
 

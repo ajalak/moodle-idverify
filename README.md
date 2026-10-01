@@ -18,8 +18,8 @@ self-registration, Google or Microsoft).
 | `CHANGES.md` | [What each release contains](CHANGES.md) and known open items |
 | `IDVERIFY_PLAN.md` | Plan, decisions log |
 
-**Current release: 1.0.0-rc4** (release candidate, 2026-09-30): `local_idverify` 1.0.0-rc4 (2026093001),
-`customcertelement_idverify` 1.0.0-rc1 (2026092801), `availability_idverify` 1.0.0-rc1 (2026092801). Install the three
+**Current release: 1.0.0-rc5** (release candidate, 2026-10-01): `local_idverify` 1.0.0-rc5 (2026100100),
+`customcertelement_idverify` 1.0.0-rc1 (2026092801), `availability_idverify` 1.0.0-rc2 (2026100100). Install the three
 together; see [CHANGES.md](CHANGES.md).
 
 Requirements: Moodle 5.2+, `mod_customcert` 5.2.8+ (for the element), PHP `sodium` (standard in Moodle 5.2).
@@ -164,6 +164,9 @@ learner's session, so a manually verified learner must open *My identity* or log
 - Page: `/local/idverify/index.php`. It shows the status, the code masked (`4xxxxxx0009`), the method and the
   date. The introduction above the button is set under *Settings → Introduction on My identity* (empty = the
   default text; the multi-language content filter works there).
+- After verifying, **Continue** leads back to where the learner came from: the restricted certificate (the
+  restriction's link carries it), the profile page, or any other page of the site that linked here (taken from the
+  browser's referrer). A link can name the page itself with `?returnurl=/course/view.php?id=…` (local URLs only).
 - Course callout: add a text-and-media area (label) with this HTML:
 
 ```html

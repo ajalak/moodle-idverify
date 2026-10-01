@@ -20,6 +20,7 @@ use core\output\named_templatable;
 use core\output\renderable;
 use core\output\renderer_base;
 use local_idverify\local\crypto;
+use local_idverify\local\flow;
 use local_idverify\local\identity_manager;
 use local_idverify\local\idcode;
 use local_idverify\provider\registry;
@@ -89,6 +90,7 @@ class my_identity implements named_templatable, renderable {
                 'method' => get_string('method:' . $identity->method, 'local_idverify'),
                 'timeverified' => userdate($identity->timeverified, get_string('strftimedatetime', 'langconfig')),
                 'nameslocked' => get_config('local_idverify', 'overwritenames') !== '0',
+                'continueurl' => flow::get_return()?->out(false),
             ];
         }
         return $data;

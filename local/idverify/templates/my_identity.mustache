@@ -27,13 +27,15 @@
     * starturl, sesskey - verify button target
     * intro - introduction HTML (admin setting or default string)
     * fullname, idcode (masked), birthdate, country, method, timeverified, nameslocked - when verified
+    * continueurl - the page the learner came from (optional, when verified)
 
     Example context (json):
     {
         "verified": true, "canstart": false, "notavailable": false, "adminwarning": false,
         "starturl": "https://example.test/local/idverify/start.php", "sesskey": "abc", "intro": "<p>Tuvasta oma isik.</p>",
         "fullname": "Mari Maasikas", "idcode": "4xxxxxx1234", "birthdate": null, "country": "EE",
-        "method": "Smart-ID", "timeverified": "27 September 2026, 10:00", "nameslocked": true
+        "method": "Smart-ID", "timeverified": "27 September 2026, 10:00", "nameslocked": true,
+        "continueurl": "https://example.test/course/view.php?id=2"
     }
 }}
 <div class="local-idverify-myidentity">
@@ -61,6 +63,9 @@
         {{#nameslocked}}
             <p class="text-muted">{{#str}} nameslocked, local_idverify {{/str}}</p>
         {{/nameslocked}}
+        {{#continueurl}}
+            <a href="{{continueurl}}" class="btn btn-primary">{{#str}} continue, core {{/str}}</a>
+        {{/continueurl}}
     {{/verified}}
     {{^verified}}
         <div class="local-idverify-intro">{{{intro}}}</div>

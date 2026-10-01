@@ -148,6 +148,8 @@ final class condition_test extends \advanced_testcase {
         $description = $condition->get_description(false, false, $info);
         $this->assertStringContainsString('/local/idverify/index.php', $description);
         $this->assertStringContainsString(get_string('verifylink', 'availability_idverify'), $description);
+        $returnurl = rawurlencode('/mod/page/view.php?id=' . $this->page->cmid);
+        $this->assertStringContainsString('returnurl=' . $returnurl, $description);
 
         set_config('provider', '', 'local_idverify');
         condition::wipe_static_cache();

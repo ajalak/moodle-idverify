@@ -1,6 +1,6 @@
 # local_idverify — plan
 
-**Status:** **1.0.0-rc4** (2026-09-30): eeID replaces eID Easy, plus the service warning (local_idverify 1.0.0-rc4; element and restriction 1.0.0-rc1); 73 + 8 + 5 tests. Live Smart-ID login on eeID Test passed on the dev site (2026-10-01). Open: Mobile-ID / ID card and b5.ee live tests, the standard's section number, live checks on kera.ee.
+**Status:** **1.0.0-rc5** (2026-10-01): eeID, service warning, Continue button (local_idverify 1.0.0-rc5, restriction 1.0.0-rc2, element 1.0.0-rc1); 75 + 8 + 5 tests. Live Smart-ID login on eeID Test passed on the dev site and on b5.ee (2026-10-01). Open: Mobile-ID / ID card live tests, the standard's section number, live checks on kera.ee.
 
 ## 1. Components
 

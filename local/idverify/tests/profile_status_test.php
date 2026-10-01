@@ -89,6 +89,15 @@ final class profile_status_test extends \advanced_testcase {
         $this->assertStringNotContainsString('40404040009', $content);
         $this->assertStringNotContainsString(get_string('verifynow', 'local_idverify'), $content);
 
+        // My identity offers the way back to the page the learner came from.
+        global $PAGE;
+        $renderer = $PAGE->get_renderer('core');
+        $data = (new my_identity((int)$user->id))->export_for_template($renderer);
+        $this->assertNull($data['continueurl']);
+        \local_idverify\local\flow::remember_return('/course/view.php?id=3');
+        $data = (new my_identity((int)$user->id))->export_for_template($renderer);
+        $this->assertStringEndsWith('/course/view.php?id=3', $data['continueurl']);
+
         // Still shown after verification stops working: it describes what happened.
         set_config('provider', '', 'local_idverify');
         $this->assertNotNull(profile_status::content($user, true));

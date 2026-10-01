@@ -134,4 +134,26 @@ final class flow_test extends \advanced_testcase {
         $this->assertNull(registry::get_active());
         $this->assertArrayNotHasKey('mock', registry::get_choices());
     }
+
+    /**
+     * The page the learner came from is remembered for the Continue button; foreign and own pages are not.
+     */
+    public function test_return_url(): void {
+        global $CFG;
+        $this->assertNull(flow::get_return());
+
+        flow::remember_return('https://evil.example/x');
+        flow::remember_return('');
+        flow::remember_return($CFG->wwwroot . '/local/idverify/callback.php');
+        $this->assertNull(flow::get_return());
+
+        flow::remember_return('/mod/customcert/view.php?id=5');
+        $this->assertSame($CFG->wwwroot . '/mod/customcert/view.php?id=5', flow::get_return()->out(false));
+
+        flow::remember_return($CFG->wwwroot . '/local/idverify/index.php');
+        $this->assertSame($CFG->wwwroot . '/mod/customcert/view.php?id=5', flow::get_return()->out(false));
+
+        flow::remember_return($CFG->wwwroot . '/user/profile.php?id=2');
+        $this->assertSame($CFG->wwwroot . '/user/profile.php?id=2', flow::get_return()->out(false));
+    }
 }

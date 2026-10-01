@@ -1,5 +1,15 @@
 # Changes
 
+## 1.0.0-rc5 (2026-10-01): Continue button
+
+`local_idverify` 1.0.0-rc5 (2026100100) and `availability_idverify` 1.0.0-rc2 (2026100100);
+`customcertelement_idverify` stays 1.0.0-rc1.
+
+- *My identity* shows a **Continue** button once verified, back to the page the learner came from: the restricted
+  activity (the restriction's link now carries `returnurl`), the profile page, or the referring page of the site.
+  Only local URLs outside the plugin are kept (in the session).
+- The success message after verifying was shown twice; now only the page's own status box shows it.
+
 ## 1.0.0-rc4 (2026-09-30): service warning
 
 Only `local_idverify` changes (2026093001); `customcertelement_idverify` and `availability_idverify` stay 1.0.0-rc1.
@@ -77,5 +87,5 @@ Moodle 5.2+, `mod_customcert` 5.2.8+ for the element.
 - The section number of the Continuing Education Standard that lists the certificate contents is still to be confirmed
   from Riigi Teataja (the act and its RT reference are in place since 1.0.0-rc2).
 - eeID: a live Smart-ID login on the eeID Test environment passed on the dev site (2026-10-01: signed ID token
-  accepted, name and method stored, birth date taken from the code, `acr` = `high` logged). Still to do: Mobile-ID
-  and ID card, b5.ee, and the production service on the live site.
+  accepted, name and method stored, birth date taken from the code, `acr` = `high` logged), and on b5.ee the same day.
+  Still to do: Mobile-ID and ID card, and the production service on the live site.

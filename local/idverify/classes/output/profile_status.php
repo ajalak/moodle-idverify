@@ -94,7 +94,9 @@ class profile_status {
             return $badge;
         }
         return $badge . ' ' . \html_writer::link(
-            new \moodle_url('/local/idverify/index.php'),
+            new \moodle_url('/local/idverify/index.php', [
+                'returnurl' => (new \moodle_url('/user/profile.php', ['id' => $user->id]))->out_as_local_url(false),
+            ]),
             get_string('verifynow', 'local_idverify'),
             ['class' => 'fw-bold']
         );

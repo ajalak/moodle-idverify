@@ -39,6 +39,36 @@ class flow {
     }
 
     /**
+     * Remember where the learner came from, for the "Continue" button after verifying.
+     *
+     * Only local URLs outside this plugin are kept; anything else leaves the remembered page unchanged.
+     *
+     * @param string $url An explicit return URL, or the HTTP referer.
+     */
+    public static function remember_return(string $url): void {
+        global $SESSION;
+        $url = clean_param($url, PARAM_LOCALURL);
+        if ($url === '') {
+            return;
+        }
+        $url = new \moodle_url($url);
+        if (str_contains($url->get_path(false), '/local/idverify/')) {
+            return;
+        }
+        $SESSION->local_idverify_returnurl = $url->out(false);
+    }
+
+    /**
+     * The page the learner came from, if known.
+     *
+     * @return \moodle_url|null
+     */
+    public static function get_return(): ?\moodle_url {
+        global $SESSION;
+        return empty($SESSION->local_idverify_returnurl) ? null : new \moodle_url($SESSION->local_idverify_returnurl);
+    }
+
+    /**
      * Whether self-verification works on this site: a valid HMAC key and an active provider.
      *
      * availability_idverify enforces its restriction only while this is true (fails open otherwise).

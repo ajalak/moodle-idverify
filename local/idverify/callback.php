@@ -53,4 +53,5 @@ try {
     $message = $e->module === 'local_idverify' ? $e->getMessage() : get_string('error:provider', 'local_idverify');
     redirect($returnurl, $message, null, notification::NOTIFY_ERROR);
 }
-redirect($returnurl, get_string('verified', 'local_idverify'), null, notification::NOTIFY_SUCCESS);
+// No message: the page itself shows the verified status.
+redirect($returnurl);
