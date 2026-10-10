@@ -29,7 +29,7 @@ Requirements: Moodle 5.2+, `mod_customcert` 5.2.8+ (for the element), PHP `sodiu
 | Site | Role | eeID |
 |---|---|---|
 | b5.ee | Sandbox; no real services connected | A **Test** eeID service (free, test users only), or provider *Disabled* |
-| kera.ee | Live site | A **Production** eeID service (paid per authentication) with redirect URL `https://kera.ee/local/idverify/callback.php` |
+| kursus.kera.ee | Live site | A **Production** eeID service (paid per authentication) with redirect URL `https://kursus.kera.ee/local/idverify/callback.php` |
 
 Each site has **its own HMAC key** and its own backups of that key and `moodledata/secret/`. Never copy verified
 identities between sites: the stored codes are tied to each site's keys. On b5.ee they are test data anyway.
